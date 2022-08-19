@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import SideBar from "./components/SideBar";
 
 function App() {
   const [bacon, setBacon] = useState(null);
 
   useEffect(() => {
-    fetch('/bacon')
-      .then(res => res.json())
-      .then(data => setBacon(data));
+    fetch("/bacon")
+      .then((res) => res.json())
+      .then((data) => setBacon(data));
   }, []);
 
   return <div>{bacon ? bacon : `...where's my stuff?...`}</div>;
