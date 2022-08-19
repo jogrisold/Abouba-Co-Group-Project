@@ -69,12 +69,11 @@ const handleProductById = async (req, res) => {
     client.close();
 };
 
-const handleProductPurchase = async () => {
+// const handleProductPurchase = async () => {
 
-}
+// }
 
 module.exports = {
     handleProducts,
     handleProductById,
-    handleProductPurchase
 };

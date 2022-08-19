@@ -13,7 +13,6 @@ const morgan = require('morgan');
 const {
     handleProducts,
     handleProductById,
-    handleProductPurchase
 } = require('./handlers/productHandlers')
 
 const {
@@ -43,7 +42,7 @@ express()
     // get products by id
     .get('/api/products/:id', handleProductById)
     // patch product stock - unfinished
-    .patch('/api/products/:id', handleProductPurchase)
+    // .patch('/api/products/:id', handleProductPurchase)
     
     /* COMPANY ENDPOINTS */
     // get all companies 
