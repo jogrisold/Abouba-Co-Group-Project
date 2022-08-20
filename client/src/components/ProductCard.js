@@ -3,13 +3,17 @@ import { StoreContext } from './StoreContext'
 import styled from 'styled-components'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import { useState, useEffect } from 'react'
+import { ImCheckmark } from 'react-icons/im'
 
 
 
 export const ProductCard = () => {
-    const { products, companies } = useContext(StoreContext);
+    const { dispatch, products, companies, cart } = useContext(StoreContext);
     const [company, setCompany] = useState('Barska');
 
+    const addToCart = (product) => {
+        dispatch({type: 'add-to-cart', key: product._id, product: product})
+    }
 
     // useEffect(()=>{
     //     fetch(`/api/companies/${products[0].companyId}`)
@@ -19,6 +23,8 @@ export const ProductCard = () => {
     //         setCompany(data.data)
     //     })
     // }, [])
+
+
 
 
     if (products.length > 0) {
@@ -31,7 +37,9 @@ export const ProductCard = () => {
                 <ProductName>{product.name}</ProductName>
                 <Flex>
                     <TextBold>{product.price}</TextBold>
-                    <Cart><AiOutlineShoppingCart/></Cart>
+                    <Cart onClick={()=>{addToCart(product)}}>
+                        <AiOutlineShoppingCart/>
+                    </Cart>
                 </Flex>
             </ContentInformation>
             </Card>
@@ -95,6 +103,11 @@ justify-content: center;
 align-items: center;
 border-radius: 50%;
 border: none;
+transition: all .2s ease-in-out;
+
+&:hover {
+    transform: scale(1.2);
+}
 
 cursor: pointer;
 `
