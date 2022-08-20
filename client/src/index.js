@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 
+import App from './components/App';
 import { StoreProvider } from './components/StoreContext'
+
+const rootElement = document.getElementById('root');
 
 ReactDOM.render(
   <React.StrictMode>
@@ -10,5 +12,5 @@ ReactDOM.render(
       <App />
     </StoreProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  rootElement
 );
