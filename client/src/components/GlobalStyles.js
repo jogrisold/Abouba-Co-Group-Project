@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
     :root {
         --color-primary: #C6C9C0;
         --color-secondary: #474E6A;
@@ -73,5 +73,6 @@ export default createGlobalStyle`
     blockquote,
     input {
     font-family: var(--font-body);
-    }
-    `;
+    }`;
+
+    export default GlobalStyle;

@@ -2,7 +2,9 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { StoreContext } from "./StoreContext";
 import { BsCartDash } from "react-icons/bs";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
+
+
 export const Header = () => {
 
     const {loggedIn, setLoggedIn} = useContext(StoreContext);
