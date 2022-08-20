@@ -6,6 +6,7 @@ export const StoreContext = createContext(null);
 const initialState = {
     products: [],
     companies: [],
+    cart: []
 };
 
 const reducer = (state, action) =>{
@@ -19,6 +20,12 @@ const reducer = (state, action) =>{
             return {
                 ...state,
                 companies: action.companies
+            }
+        } case 'add-to-cart' : {
+            return {
+                ...state,
+                cart: {...state.cart,
+                [action.key]: action.product}
             }
         } default:
         throw new Error('ERROR')
