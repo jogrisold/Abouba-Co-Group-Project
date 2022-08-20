@@ -21,13 +21,14 @@ export const Homepage = () =>{
 };
 
 const PageWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: flex; 
+    flex-direction: column; 
     border: 1px solid var(--color-quarternary);
 `;
 const StoreWrapper = styled.div`
-    display: grid;
-    grid-template-columns: (30%, 70%);
+    display: flex;
+    /* display: grid; */
+    grid-template-columns: (1fr, 3fr);
     border: 1px solid var(--color-quarternary);
 `;
 const Store= styled.div`
