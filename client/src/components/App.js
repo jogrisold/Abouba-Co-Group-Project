@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import SideBar from './SideBar'
+// import {Carousel} from './Carousel'
+import {StoreContext} from './StoreContext'
+import {Homepage} from './Homepage'
 
 function App() {
   const [bacon, setBacon] = useState(null);
@@ -10,11 +13,14 @@ function App() {
   //     .then((data) => setBacon(data));
   // }, []);
 
-  return (
-    <>
-    <SideBar/>
-    </>
-  )
+  const { products, companies } = useContext(StoreContext);
+    return (
+      <>
+      <SideBar/>
+      <Homepage/>
+      </>
+    )
+
 }
 
 export default App;

@@ -41,6 +41,7 @@ express()
     .get('/api/products', handleProducts)
     // get products by id
     .get('/api/products/:id', handleProductById)
+    // get products by category
     // patch product stock - unfinished
     // .patch('/api/products/:id', handleProductPurchase)
     

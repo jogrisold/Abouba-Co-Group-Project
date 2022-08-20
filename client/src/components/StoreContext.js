@@ -31,7 +31,6 @@ export const StoreProvider = ({children}) => {
         fetch('/api/companies')
         .then((res)=>res.json())
         .then((data)=>{
-            console.log(data)
             dispatch({type: 'store-company-data', companies: data.data})
         })
     }, [])
