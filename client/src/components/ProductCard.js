@@ -17,8 +17,8 @@ export const ProductCard = () => {
         dispatch({type: 'add-to-cart', key: product._id, product: product})
     }
 
-    const handleClickCard = (id) => {
-        navigate(`/product/${id}`)
+    const handleClickCard = (productId) => {
+        navigate(`/product/${productId}`)
     }
 
     // useEffect(()=>{

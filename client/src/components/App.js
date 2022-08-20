@@ -6,6 +6,7 @@ import {Homepage} from './Homepage'
 import createGlobalStyle from "./GlobalStyles";
 import GlobalStyle from "./GlobalStyles";
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
+import ItemDetails from "./ItemDetails";
 
 const  App = () => {
   const [bacon, setBacon] = useState(null);
@@ -24,6 +25,7 @@ const  App = () => {
             <Routes>
               {/* react router v6 uses element attribute to render components */}
               <Route exact path='/' element={<Homepage/>}/>
+              <Route exact path='/product/:productId' element={<ItemDetails/>}/>
             </Routes>
           </BrowserRouter>
       </>
