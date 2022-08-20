@@ -1,31 +1,31 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { StoreContext } from "./StoreContext";
-import {BsCartDash} from "@react-icons/all-files/bs";
-
+import { BsCartDash } from "react-icons/bs";
+import logo from "../assets/logo.png"
 export const Header = () => {
 
     const {loggedIn, setLoggedIn} = useContext(StoreContext);
     // Login logic from abouba goes here:
-    const handleSubmit = () => {
-        e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault()
         setLoggedIn(true);
     };
 
     return(
         <>
         <Wrapper>
-            <Logo src = './assets/logo.png'/>
+            <Logo src = {logo}/>
 
             <Cart>{BsCartDash}</Cart>
             {
             loggedIn 
             ? <LogOut
-                handleSubmit={handleSubmit}>
+                handleSubmit={(e)=>{handleSubmit(e)}}>
                 Logout
                 </LogOut> 
             : <LogIn
-                handleSubmit={handleSubmit}>
+                handleSubmit={(e)=> {handleSubmit(e)}}>
                 Login
                 </LogIn>}
             
