@@ -4,15 +4,21 @@ import styled from 'styled-components'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import { ImCheckmark } from 'react-icons/im'
+import { useNavigate } from 'react-router-dom'
 
 
 
 export const ProductCard = () => {
     const { dispatch, products, companies, cart } = useContext(StoreContext);
     const [company, setCompany] = useState('Barska');
+    const navigate = useNavigate();
 
     const addToCart = (product) => {
         dispatch({type: 'add-to-cart', key: product._id, product: product})
+    }
+
+    const handleClickCard = (id) => {
+        navigate(`/product/${id}`)
     }
 
     // useEffect(()=>{
@@ -29,8 +35,9 @@ export const ProductCard = () => {
 
     if (products.length > 0) {
         const product = products[0]
+  
         return (
-            <Card>
+            <Card onClick={()=>{handleClickCard(product._id)}}>
             <Image src={product.imageSrc}/>
             <ContentInformation>
                 <CompanyName>{company}</CompanyName>
