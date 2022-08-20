@@ -40,8 +40,8 @@ export const ProductCard = () => {
     } else {
         return <div>loading</div>
     }
-
 }
+
 
 const Card = styled.div`
 border: 1px solid rgba(120, 120, 120, 0.3);
