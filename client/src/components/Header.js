@@ -23,26 +23,34 @@ export const Header = () => {
     };
 
     const handleClickCart = (e) => {
+        navigate('/cart')
     };
+
+    const handleClickLogIn = () => {
+        navigate('/login')
+    }
+
+    const handleClickLogOut = () => {
+        //logout logic here
+    }
 
     return(
         <>
         <Wrapper>
             <Logo src = {logoblue}/>
             <FlexRow>
-                <Cart><BsCartDash size = {40}/></Cart>
-                <ProfileBtn handleClick={handleClickProfile}><FaRegUser size = {40}/></ProfileBtn>
+                <Cart onClick={handleClickCart}><BsCartDash size = {40}/></Cart>
+                <ProfileBtn onClick={handleClickProfile}><FaRegUser size = {40}/></ProfileBtn>
                 {
                 loggedIn 
                 ? <LogOut
-                    handleSubmit={(e)=>{handleSubmit(e)}}>
+                    onClick={handleClickLogOut}>
                     Logout
                     </LogOut> 
                 : <LogIn
-                    handleSubmit={(e)=> {handleSubmit(e)}}>
+                    onClick={handleClickLogIn}>
                     Login
                     </LogIn>}
-
             </FlexRow>
         </Wrapper>
         </>
@@ -97,6 +105,7 @@ const LogIn = styled.button`
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
+    cursor: pointer;
 `;
 const LogOut = styled.button`
     font-family: var(--font-heading);
@@ -111,6 +120,7 @@ const LogOut = styled.button`
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
+    cursor: pointer;
 `;
 
 export default Header

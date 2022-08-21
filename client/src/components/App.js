@@ -10,6 +10,7 @@ import ItemDetails from "./ItemDetails";
 import Login from "./Login";
 import SignIn from "./SignIn";
 import Profile from "./Profile";
+import CartPage from "./CartPage";
 
 const App = () => {
   const [bacon, setBacon] = useState(null);
@@ -32,6 +33,7 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/profile" element={<Profile/>}/>
+          <Route exact path="/cart" element={<CartPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
