@@ -4,9 +4,12 @@ import { StoreContext } from "./StoreContext";
 import { BsCartDash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import logoblue from "../assets/logoblue.png";
+import { useNavigate } from "react-router-dom";
 
 
 export const Header = () => {
+
+    const navigate = useNavigate();
 
     const {loggedIn, setLoggedIn} = useContext(StoreContext);
     // Login logic from abouba goes here:
@@ -15,7 +18,7 @@ export const Header = () => {
         setLoggedIn(true);
     };
 
-    const handleClick = (e) => {
+    const handleClickProfile = (e) => {
 
     };
 
@@ -25,7 +28,7 @@ export const Header = () => {
             <Logo src = {logoblue}/>
             <FlexRow>
                 <Cart><BsCartDash size = {40}/></Cart>
-                <ProfileBtn handleClick={handleClick}><FaRegUser size = {40}/></ProfileBtn>
+                <ProfileBtn handleClick={handleClickProfile}><FaRegUser size = {40}/></ProfileBtn>
                 {
                 loggedIn 
                 ? <LogOut
