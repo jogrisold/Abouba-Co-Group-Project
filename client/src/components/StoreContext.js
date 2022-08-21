@@ -60,7 +60,7 @@ export const StoreProvider = ({children}) => {
             dispatch({type: 'store-product-data', products: data.data})
         })
     }, [])
-
+    
     return (
         <StoreContext.Provider value={{
             ...state, 
