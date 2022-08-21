@@ -14,7 +14,8 @@ export const ProductCard = () => {
     const navigate = useNavigate();
 
     const addToCart = (product) => {
-        dispatch({type: 'add-to-cart', key: product._id, product: {...product, quantity: 1}})
+            dispatch({type: 'add-to-cart', key: product._id, product: product})
+
     }
 
     const handleClickCard = (productId) => {

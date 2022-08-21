@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
+import Header from "./Header";
 
 const ItemDetails = () => {
     const [product, setProduct] = useState(null);
@@ -34,8 +35,14 @@ const ItemDetails = () => {
 
     if (product && company) {
         return (
+            <>
+            <Header/>
+      
             <Wrapper>
-                <HomeLink to='/'><MdOutlineArrowBackIosNew/>Go back to Homepage</HomeLink>
+            <div style={{width: '100%'}}>
+            <HomeLink to='/'><MdOutlineArrowBackIosNew/>Homepage</HomeLink>
+            </div>
+               
                 <Content>
                     <Image src={product.imageSrc}/>
                     <FlexCol>
@@ -50,6 +57,7 @@ const ItemDetails = () => {
                     </FlexCol>
                 </Content>
             </Wrapper>
+            </>
 
         )
     } else {
@@ -64,11 +72,16 @@ export default ItemDetails;
 
 
 const Wrapper = styled.div`
+margin: 0 auto;
 display: flex;
 flex-direction: column;
-width: 100%;
+align-items: center;
+width: 80%;
+padding: 36px 0;
 `
 const Image = styled.img`
+width: 190px;
+height: 100%;
 `
 const Content = styled.div`
 display: flex;
@@ -79,10 +92,9 @@ const FlexCol = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
-border: 1px solid red;
 height: 100%;
 width: 400px;
-padding: 8px 0;
+padding: 8px 4px;
 gap: 8px;`
 
 const ProductName = styled.div`
@@ -94,6 +106,9 @@ display: flex;
 align-items: center;
 color: black;
 text-decoration: none;
+width: 30%;
+padding: 30px 0px;
+margin: 0 36px;
 `
 const QuantitySelect = styled.input`
 font-size: 1.25rem;
