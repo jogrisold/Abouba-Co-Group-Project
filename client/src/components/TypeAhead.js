@@ -3,20 +3,12 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const TypeAhead = ({suggestion, handleSelect, categories}) => {
-    const [input, setInputState] = useState('')
+    const [input, setInput] = useState('')
     const navigate = useNavigate();
     const filteredSuggestions = () => {
-        return (Object.values(suggestion)).filter(element=>{
-            return element.name.toLowerCase().includes(input.toLowerCase()) 
-            &&
-            input.length > 1
+        return (Object.values(suggestion)).filter(element => {
+            return element.name.toLowerCase().includes(input.toLowerCase()) && input.length > 1
         })
-    }
-    const handleClick = (element) => {
-        console.log(element._id);
-        if(element._id > 0){
-            navigate(`/ItemDetails/${element._id}`);
-        }
     }
     
     return (
@@ -24,44 +16,50 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
         <Wrapper>
             <div>
                 <Input 
-                type='text' 
-                value = {input}
-                onChange={(event)=>{
-                    setInputState(event.target.value)
-                }}
-                onKeyDown={(event)=>{
-                    event.key === "Enter" &&
-                    handleSelect(event.target.value)  
-                }}
+                    type='text' 
+                    value = {input}
+                    onChange={(event)=>{
+                        setInput(event.target.value)
+                    }}
+                    onKeyDown={(event)=>{
+                        event.key === "Enter" &&
+                        handleSelect(event.target.value)  
+                    }}
                 />
-                <Button onClick={() => setInputState('')}>Clear</Button>
+                <Button onClick={() => setInput('')}>Clear</Button>
             </div>
             
             {
             filteredSuggestions().length > 0
-            &&
-            <UoList>
-                {filteredSuggestions().map(element => {
-                return ( 
-                    <Suggestion 
-                    key={element._id}
-                    onClick={()=>{
-                        if(element._id > 0){
-                            navigate(`/products/${element._id}`);
-                        }
-                    }}>
-                        <FirstHalf>
-                            {element.name.slice(0, input.length)}
-                        </FirstHalf>
-                        <SecondHalf>
-                            {element.name.slice(input.length)}
-                        </SecondHalf>
-                        <AccentSpan> in
-                            <PurpleSpan> {element.category}</PurpleSpan>
-                         </AccentSpan>
-                    </Suggestion>
-                )
-                })} 
+                &&
+                <UoList>
+                    {filteredSuggestions().map(element => {
+                        return ( 
+                            <Suggestion 
+                                key={element._id}
+                                onClick={()=>{
+                                    if(element._id > 0){
+                                        navigate(`/product/${element._id}`);
+                                    } else {
+                                    window.alert("Sorry, that product cannot be found")
+                                    }
+                                }}
+                            >
+                                <FirstHalf>
+                                    {element.name.slice(0, input.length)}
+                                </FirstHalf>
+                                <SecondHalf>
+                                    {element.name.slice(input.length)}
+                                </SecondHalf>
+                                <AccentSpan> 
+                                    in
+                                    <PurpleSpan> 
+                                        {element.category}
+                                    </PurpleSpan>
+                                </AccentSpan>
+                            </Suggestion>
+                        )
+                    })} 
                 </UoList> 
             }
         </Wrapper>
@@ -71,26 +69,31 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
 export default TypeAhead;
 
 const Wrapper = styled.div`
-    display: flex;
+    /* display: flex;
     gap: 0.5rem;
-    flex-direction: column;
+    flex-direction: column; */
 `;
 
 const Input = styled.input`
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
     font-size: 1.5rem;
-    padding: 0.4rem 0;
-    margin: 100px 0 100px 0;
+    padding: 0.4rem 0.7rem;
+    margin: 80px 0;
     width: 400px;
 `;
 
 const Button = styled.button`
-    background: blue;
+    background: var(--color-quarternary);
     color: white;
     font-size: 1.5rem;
     padding: 0.5rem 1.5rem;
     border: none;
     border-radius: 6px;
-    margin: 0 0.25rem;
+    margin-left: 0.8rem;
+    &:hover{
+        background-color: var(--color-secondary);
+    }
 `;
 
 const UoList = styled.ul`
@@ -113,7 +116,7 @@ const Suggestion = styled.li`
     &:hover,
     &:focus,
     &:active {
-        background: beige;
+        background: var(--color-primary);
     }
 `;
 const FirstHalf = styled.span`

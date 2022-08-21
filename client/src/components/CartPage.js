@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { StoreContext } from "./StoreContext";
 import { useContext } from "react";
-import Header from "./Header";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
 import { BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -11,7 +10,6 @@ const CartPage = () => {
     let totalPrice = 0;    
     return (
         <>
-        <Header/>
         <h2>Cart</h2>
         <SubHeader>Items</SubHeader>
         {cart &&

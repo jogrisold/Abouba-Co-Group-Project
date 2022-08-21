@@ -6,7 +6,9 @@ import { FaFilter } from "react-icons/fa";
 const Sidebar = () => {
   return (
     <Wrapper>
-      <Filter>Filter our inventory:<FaFilter size={20}/></Filter>
+      <Filter>
+        Filter: <FaFilter size={20}/>
+      </Filter>
       <Radio>
         Radio: 
         <FlexRow>
@@ -37,7 +39,7 @@ const Sidebar = () => {
           <Checkbox type = "checkbox"/> Checkbox 5
         </FlexRow>
       </Options>
-     
+    
     </Wrapper>
   )
 };
@@ -49,28 +51,25 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 250px;
-  background-color: var(--color-quarternary);
+  padding: 30px 0 0 20px;
+  background-color: rgba(120, 120, 120, 0.3);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 `;
 const Filter = styled.div`
   display: flex;
-  justify-content: center;
   height: 60px;
   width: 250px;
   font-family: var(--font-body);
   font-size: 24px;
-  background-color: var(--color-quarternary);
-  color: white;
   font-weight: 100;
   padding: 20px 0 0 0;
-
   `;
 const Radio = styled.div`
+  color: black;
   display: flex;
   flex-direction: column; 
   font-family: var(--font-body);
   font-size: 22px;
-  color: white;
-  background-color: var(--color-quarternary);
   padding: 10px 0 0 20px;
 `;
 const RadioInput = styled.input`
@@ -81,12 +80,11 @@ const RadioInput = styled.input`
   margin: 5px 10px 5px 10px;
 `;
 const Options = styled.div`
+  color: black;
   display: flex;
   flex-direction: column; 
   font-family: var(--font-body);
   font-size: 22px;
-  color: white;
-  background-color: var(--color-quarternary);
   padding: 10px 0 0 20px;
 `;
 const Checkbox = styled.input`
@@ -97,13 +95,10 @@ const Checkbox = styled.input`
   margin: 5px 10px 5px 10px;
 `;
 const FlexRow = styled.div`
+  color: black;
   display: flex;
   flex-direction: row; 
   font-family: var(--font-body);
   font-size: 22px;
-  background-color: var(--color-quarternary);
   margin: 15px 0 5px 0;
-`;
-const SubHeading = styled.h3`
-
 `;
