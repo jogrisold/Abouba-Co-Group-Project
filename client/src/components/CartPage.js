@@ -30,20 +30,46 @@ const CartPage = () => {
         <p>Total: ${totalPrice}</p>
         <SubHeader>Shipping details</SubHeader>
         <ShippingForm>
-            <Label for='fname'>First name</Label>
-            <Input type='text'/>
-            <Label for='lname'>Last name</Label>
-            <Input type='text'/>
+            <FlexRow>
+                <FlexCol>
+                    <Label for='fname'>First name</Label>
+                    <Input type='text' id='fname'/>
+                </FlexCol>
+                <FlexCol>
+                    <Label for='lname'>Last name</Label>
+                    <Input type='text' id='lname' />
+                </FlexCol>
+            </FlexRow>
             <Label for='email'>Email</Label>
-            <Input type='email'/>
-            <Label for='city'>City</Label>
-            <Input type='text'/>
-            <Label for='province'>Province</Label>
-            <Input type='text'/>
+            <Input type='email' id='email'/>
+            <FlexRow>
+                <FlexCol>
+                    <Label for='city'>City</Label>
+                    <Input type='text' id='city'/>
+                </FlexCol>
+                <FlexCol>
+                    <Label for='province'>Province</Label>
+                    <Input type='text' id='province'/>
+                </FlexCol>
+            </FlexRow>
             <Label for='country'>Country</Label>
-            <Input type='text'/>
+            <Input type='text' id='country'/>
+            
             <SubHeader>Billing Details</SubHeader>
             <Label for='credit-card'>Credit Card</Label>
+            <Input type='number' id='credit-card'/>
+            <FlexRow>
+                <FlexCol>
+                    <Label for='expiry'>Expiry</Label>
+                    <Input type='number' id='expiry'/>
+                </FlexCol>
+                <FlexCol>
+                    <Label for='CVV'>CVV</Label>
+                    <Input type='number' id='CVV'/>
+                </FlexCol>
+            </FlexRow>
+            <CancelBtn>Cancel</CancelBtn>
+            <PurchaseBtn>Purchase</PurchaseBtn>
         </ShippingForm>
         </div>}
         </>
@@ -54,6 +80,7 @@ font-size: 1.5rem;
 display: flex;
 border-bottom: 1px solid var(--color-secondary);
 padding: 8px 0;
+width: 100%;
 `
 
 const ProductName = styled(Link)`
@@ -61,9 +88,37 @@ color: black;
 `
 
 const ShippingForm = styled.form`
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+
 `
 
-const Label = styled.label``
+const FlexRow = styled.div`
+display: flex;`
 
-const Input = styled.input``
+const FlexCol = styled.div`
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+/* display: inline-block; */
+width: 30%;
+`
+
+const Label = styled.label`
+font-size: 1rem;`
+
+const Input = styled.input`
+width: ${(props=>(props.id === 'CVV' 
+?
+'80px'
+: '140px'))};
+
+`
+
+const CancelBtn = styled.button`
+`
+
+const PurchaseBtn = styled.button`
+`
 export default CartPage;
