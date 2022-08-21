@@ -9,6 +9,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import ItemDetails from "./ItemDetails";
 import Login from "./Login";
 import SignIn from "./SignIn";
+import Profile from "./Profile";
 
 const App = () => {
   const [bacon, setBacon] = useState(null);
@@ -30,6 +31,7 @@ const App = () => {
           <Route exact path="/product/:productId" element={<ItemDetails />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signin" element={<SignIn />} />
+          <Route exact path="/profile" element={<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>
