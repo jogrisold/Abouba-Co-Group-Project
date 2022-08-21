@@ -14,7 +14,7 @@ export const ProductCard = () => {
     const navigate = useNavigate();
 
     const addToCart = (product) => {
-        dispatch({type: 'add-to-cart', key: product._id, product: product})
+        dispatch({type: 'add-to-cart', key: product._id, product: {...product, quantity: 1}})
     }
 
     const handleClickCard = (productId) => {
@@ -44,7 +44,9 @@ export const ProductCard = () => {
                 <ProductName>{product.name}</ProductName>
                 <Flex>
                     <TextBold>{product.price}</TextBold>
-                    <Cart onClick={()=>{addToCart(product)}}>
+                    <Cart onClick={(event)=>{
+                        event.stopPropagation();
+                        addToCart(product)}}>
                         <AiOutlineShoppingCart/>
                     </Cart>
                 </Flex>
@@ -67,6 +69,8 @@ align-items: center;
 justify-content: center;
 gap: 8px;
 border-radius: 8px;
+
+cursor: pointer;
 `
 
 const ContentInformation = styled.div`
