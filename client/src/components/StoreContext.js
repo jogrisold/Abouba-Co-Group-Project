@@ -6,7 +6,7 @@ export const StoreContext = createContext(null);
 const initialState = {
     products: [],
     companies: [],
-    cart: ["test"]
+    cart: {}
 };
 
 const reducer = (state, action) =>{
