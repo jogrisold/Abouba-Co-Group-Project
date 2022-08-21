@@ -24,8 +24,11 @@ const reducer = (state, action) =>{
         } case 'add-to-cart' : {
             return {
                 ...state,
-                cart: {...state.cart,
-                [action.key]: action.product}
+                cart: {
+                    ...state.cart,
+                    [action.key]: action.product
+                }
+                
             }
         } default:
         throw new Error('ERROR')

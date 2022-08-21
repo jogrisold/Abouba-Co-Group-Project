@@ -103,3 +103,5 @@ const LogOut = styled.button`
     text-align: center;
     background-color: var(--color-secondary);
 `;
+
+export default Header
