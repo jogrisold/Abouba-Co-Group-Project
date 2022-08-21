@@ -12,12 +12,6 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
             input.length > 1
         })
     }
-    const handleClick = (element) => {
-        console.log(element._id);
-        if(element._id > 0){
-            navigate(`/ItemDetails/${element._id}`);
-        }
-    }
     
     return (
         
@@ -47,7 +41,9 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
                     key={element._id}
                     onClick={()=>{
                         if(element._id > 0){
-                            navigate(`/products/${element._id}`);
+                            navigate(`/product/${element._id}`);
+                        } else {
+                          window.alert("Sorry, that product cannot be found")
                         }
                     }}>
                         <FirstHalf>
