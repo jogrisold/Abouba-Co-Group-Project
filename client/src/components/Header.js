@@ -1,56 +1,45 @@
 import { useContext } from "react";
-import styled from "styled-components";
 import { StoreContext } from "./StoreContext";
+import styled from "styled-components";
+import logoblue from "../assets/logoblue.png";
 import { BsCartDash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
-import logoblue from "../assets/logoblue.png";
 import { useNavigate } from "react-router-dom";
 
 
 export const Header = () => {
 
     const navigate = useNavigate();
-
     const {loggedIn, setLoggedIn} = useContext(StoreContext);
-    // Login logic from abouba goes here:
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        setLoggedIn(true);
-    };
 
-    const handleClickProfile = (e) => {
-        navigate('/profile')
-    };
-
-    const handleClickCart = (e) => {
-        navigate('/cart')
-    };
-
-    const handleClickLogIn = () => {
-        navigate('/login')
+    const handleClick = (routename) => {
+        navigate(`/${routename}`)
     }
-
     const handleClickLogOut = () => {
-        //logout logic here
+        setLoggedIn(false)
+        // set cart to empty again?
     }
 
     return(
         <>
         <Wrapper>
-            <Logo src = {logoblue}/>
+            <Logo src = {logoblue} onClick={()=> {handleClick("")}}/>
             <FlexRow>
-                <Cart onClick={handleClickCart}><BsCartDash size = {40}/></Cart>
-                <ProfileBtn onClick={handleClickProfile}><FaRegUser size = {40}/></ProfileBtn>
+                <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
+                <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
                 {
-                loggedIn 
-                ? <LogOut
-                    onClick={handleClickLogOut}>
-                    Logout
-                    </LogOut> 
-                : <LogIn
-                    onClick={handleClickLogIn}>
-                    Login
-                    </LogIn>}
+                    loggedIn 
+                    ? <LogOut
+                        onClick={handleClickLogOut}
+                        >
+                        Logout
+                        </LogOut> 
+                    : <LogIn
+                        onClick={()=> {handleClick("login")}}
+                        >
+                        Login
+                        </LogIn>
+                }
             </FlexRow>
         </Wrapper>
         </>
@@ -63,15 +52,19 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     background-color: var(--color-secondary);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 `;
 const FlexRow = styled.div`
+    width: 15%;
+    margin-right: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 `;
 const Logo = styled.img`
-    width: 250px;
+    width: 190px;
+    margin-left: 30px;
 `;
 const Cart = styled.button`
     border-radius: 10px;
@@ -84,6 +77,10 @@ const Cart = styled.button`
     background-color: var(--color-secondary);
     border: none;
     cursor: pointer;
+    transition: ease-in-out 200ms;
+    &:hover {
+        transform: scale(1.2);
+    }
     `;
 const ProfileBtn = styled.button`
     color: white;
@@ -91,21 +88,31 @@ const ProfileBtn = styled.button`
     border: none;
     padding-top: 10px;
     cursor: pointer;
+    transition: ease-in-out 200ms;
+    &:hover {
+        transform: scale(1.2);
+    }
 `;
 const LogIn = styled.button`
     font-family: var(--font-heading);
+    color: white;
     font-size: 20px;
     border: 2px solid white;
     border-radius: 10px;
     width: 65px;
     height: 50px;
     padding: 5px;
-    color: white;
     margin: 10px;
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
     cursor: pointer;
+    transition: ease-in-out 200ms;
+    &:hover {
+        border-color: var(--color-secondary);
+        color:var(--color-secondary);
+        background-color: white;
+    }
 `;
 const LogOut = styled.button`
     font-family: var(--font-heading);
@@ -121,6 +128,11 @@ const LogOut = styled.button`
     text-align: center;
     background-color: var(--color-secondary);
     cursor: pointer;
+    &:hover {
+        border-color: var(--color-secondary);
+        color:var(--color-secondary);
+        background-color: white;
+    }
 `;
 
 export default Header

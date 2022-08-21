@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
     :root {
         --color-primary: #C6C9C0;
         --color-secondary: #474E6A;
@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
         v2.0 | 20110126
         License: none (public domain)
     */
+    html, body {
+    max-width: 100vw;
+    height: 100vh;
+    }
 
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -75,4 +79,4 @@ const GlobalStyle = createGlobalStyle`
     font-family: var(--font-body);
     }`;
 
-    export default GlobalStyle;
+    export default GlobalStyles;

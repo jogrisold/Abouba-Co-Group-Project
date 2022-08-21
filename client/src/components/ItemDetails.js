@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
-import Header from "./Header";
+import DefaultCircularProgress from "./DefaultCircularProgress"
 
 const ItemDetails = () => {
     const [product, setProduct] = useState(null);
@@ -36,7 +36,6 @@ const ItemDetails = () => {
     if (product && company) {
         return (
             <>
-            <Header/>
       
             <Wrapper>
             <div style={{width: '100%'}}>
@@ -62,7 +61,7 @@ const ItemDetails = () => {
         )
     } else {
         return (
-            <div>loading</div>
+            <DefaultCircularProgress/>
         )
     }
 }
