@@ -19,7 +19,10 @@ export const Header = () => {
     };
 
     const handleClickProfile = (e) => {
+        navigate('/profile')
+    };
 
+    const handleClickCart = (e) => {
     };
 
     return(
@@ -62,7 +65,7 @@ const FlexRow = styled.div`
 const Logo = styled.img`
     width: 250px;
 `;
-const Cart = styled.div`
+const Cart = styled.button`
     border-radius: 10px;
     width: 50px;
     height: 50px;
@@ -71,12 +74,15 @@ const Cart = styled.div`
     justify-content: center;
     align-items: center;
     background-color: var(--color-secondary);
+    border: none;
+    cursor: pointer;
     `;
 const ProfileBtn = styled.button`
     color: white;
     background-color: var(--color-secondary);
     border: none;
     padding-top: 10px;
+    cursor: pointer;
 `;
 const LogIn = styled.button`
     font-family: var(--font-heading);
