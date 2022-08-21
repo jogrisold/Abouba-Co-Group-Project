@@ -38,6 +38,12 @@ const CartPage = () => {
             <Input type='email'/>
             <Label for='city'>City</Label>
             <Input type='text'/>
+            <Label for='province'>Province</Label>
+            <Input type='text'/>
+            <Label for='country'>Country</Label>
+            <Input type='text'/>
+            <SubHeader>Billing Details</SubHeader>
+            <Label for='credit-card'>Credit Card</Label>
         </ShippingForm>
         </div>}
         </>

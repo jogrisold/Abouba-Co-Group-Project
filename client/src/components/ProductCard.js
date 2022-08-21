@@ -44,7 +44,9 @@ export const ProductCard = () => {
                 <ProductName>{product.name}</ProductName>
                 <Flex>
                     <TextBold>{product.price}</TextBold>
-                    <Cart onClick={()=>{addToCart(product)}}>
+                    <Cart onClick={(e)=>{
+                        e.stopPropagation();
+                        addToCart(product)}}>
                         <AiOutlineShoppingCart/>
                     </Cart>
                 </Flex>
