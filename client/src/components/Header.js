@@ -60,7 +60,7 @@ const FlexRow = styled.div`
     align-items: center;
 `;
 const Logo = styled.img`
-    width: 200px;
+    width: 250px;
 `;
 const Cart = styled.div`
     border-radius: 10px;
