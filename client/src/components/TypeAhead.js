@@ -42,14 +42,12 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
             &&
             <UoList>
                 {filteredSuggestions().map(element => {
-                    let _id = element._id
-                    console.log(_id);
                 return ( 
                     <Suggestion 
                     key={element._id}
                     onClick={()=>{
                         if(element._id > 0){
-                            navigate(`/products/${_id}`);
+                            navigate(`/products/${element._id}`);
                         }
                     }}>
                         <FirstHalf>
@@ -73,37 +71,45 @@ const TypeAhead = ({suggestion, handleSelect, categories}) => {
 export default TypeAhead;
 
 const Wrapper = styled.div`
-display: flex;
-gap: 0.5rem;
-flex-direction: column;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
 `;
 
 const Input = styled.input`
-font-size: 1.5rem;
-padding: 0.4rem 0;
+    font-size: 1.5rem;
+    padding: 0.4rem 0;
+    margin: 100px 0 100px 0;
+    width: 400px;
 `;
 
 const Button = styled.button`
-background: blue;
-color: white;
-font-size: 1.5rem;
-padding: 0.5rem 1.5rem;
-border: none;
-border-radius: 6px;
-margin: 0 0.25rem;
+    background: blue;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    margin: 0 0.25rem;
 `;
 
 const UoList = styled.ul`
-border: 1px solid black;
-max-width: 295px;
+    border: 1px solid black;
+    max-width: 400px;
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    margin: 100px 0 100px 0;
+    width: inherit;
 `;
 
 const Suggestion = styled.li`
+    width: inherit;
     margin: 0.5rem;
     padding: 0.25rem;
     line-height: 1.3;
+    background-color: white;
     cursor: pointer;
-
     &:hover,
     &:focus,
     &:active {
@@ -112,9 +118,10 @@ const Suggestion = styled.li`
 `;
 const FirstHalf = styled.span`
     font-weight: bold;
+    width: 400px;
 `;
 const SecondHalf = styled.span`
-
+    width: 400px;
 `;
 
 const PurpleSpan = styled.span`
