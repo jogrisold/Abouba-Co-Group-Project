@@ -1,11 +1,17 @@
 import styled from "styled-components"
-
+import { useContext } from "react"
 import { ProductCard } from "./ProductCard"
 import { Header } from "./Header"
 import { Carousel } from "./Carousel"
 import Sidebar from "./SideBar";
+import Typeahead from "./TypeAhead";
+import { StoreContext } from './StoreContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const Homepage = () =>{
+    const navigate = useNavigate();
+    const {products} = useContext(StoreContext);
+
     return (
         <>
         <PageWrapper>
@@ -14,6 +20,12 @@ export const Homepage = () =>{
                 <Sidebar />
                 <FlexColumn>
                     <Carousel />
+                    <Typeahead
+                        suggestion = {products}
+                        handleSelect = { (element) =>{
+                            console.log(element)
+                        }
+                        }/>
                     <Store>
                      {/* To do: map through all products from backend */}
                         <ProductCard/>
@@ -40,7 +52,6 @@ const PageWrapper = styled.div`
 `;
 const StoreWrapper = styled.div`
     display: flex;
-    border: 1px solid red;
     justify-content: space-between;
 `;
 const Store= styled.div`
@@ -50,10 +61,10 @@ const Store= styled.div`
 `;
 
 const FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column; 
-  font-family: var(--font-body);
-  font-size: 22px;
-  margin: 5px 0 5px 0;
-  align-items: center;
+    display: flex;
+    flex-direction: column; 
+    font-family: var(--font-body);
+    font-size: 22px;
+    margin: 5px 0 5px 0;
+    align-items: center;
 `;
