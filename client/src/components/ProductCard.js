@@ -67,6 +67,8 @@ align-items: center;
 justify-content: center;
 gap: 8px;
 border-radius: 8px;
+margin: 50px;
+font-family: var(--font-body);
 `
 
 const ContentInformation = styled.div`
@@ -87,18 +89,22 @@ width: 200px;
 `
 
 const ProductName = styled.div`
+    font-family: var(--font-body);
 `
 
 const CompanyName = styled.div`
 width: 100%;
+font-family: var(--font-body);
 color: rgba(120, 120, 120, 0.8);
 `
 
 const TextLight = styled.div`
+font-family: var(--font-body);
 color: rgba(120, 120, 120);
 `
 
 const TextBold = styled.div`
+font-family: var(--font-body);
 font-weight: 700;
 `
 
