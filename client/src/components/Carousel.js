@@ -19,6 +19,7 @@ export const Carousel = () => {
     const clickRight = () =>{
 
     };
+    const selectRandomWatch = Math.floor(Math.random() * products.length)
     return (
     <Wrapper>
     <FlexRow>
@@ -26,7 +27,8 @@ export const Carousel = () => {
             onClick ={clickLeft}>
             <BsArrowLeftCircle size = {40}/>
         </Left>
-        <ProductCard/>
+        {/* Placeholder until we add carousel logic */}
+        <ProductCard product={products[selectRandomWatch]}/>
         <Right
             onClick = {clickRight}>
             <BsArrowRightCircle size = {40}/>
@@ -48,9 +50,11 @@ const FlexRow = styled.div`
 `;
 const Left = styled.button`
     border: none;
-    background-color: white;
+    background-color: white; 
+    margin-right: 5px;
 `;
 const Right = styled.button`
     border: none;
     background-color: white;
+    margin-left: 5px;
 `;
