@@ -4,12 +4,15 @@ import { useContext } from "react";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
 import { BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import LinkHomepage from "./LinkHomepage";
 
 const CartPage = () => {
     const { cart, products, companies } = useContext(StoreContext);
     let totalPrice = 0;    
     return (
         <>
+        <LinkHomepage/>
+        <h2>Cart</h2>
         <Center>
         <Wrapper>
         <Header>Cart</Header>
