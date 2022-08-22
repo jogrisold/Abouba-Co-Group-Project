@@ -20,7 +20,10 @@ const {
   handleCompaniesById,
 } = require("./handlers/companiesHandlers");
 
-const { handleUsersById } = require("./handlers/usersHandlers");
+const {
+  handleUsersById,
+  handleUserPurchase,
+} = require("./handlers/usersHandlers");
 
 // Added the handleSignin and handleLogin
 const { handleLogIn, handleSignIn } = require("./handlers/loginHandlers");
@@ -54,6 +57,9 @@ express()
   /* USER ENDPOINTS note: none of these work right now as users collection is empty*/
   // get user by id
   .get("/api/users/:id", handleUsersById)
+  // Load the purchase in the user purchase history
+  // Than update "products" collecion numInStock
+  .patch("/api/users/:id", handleUserPurchase)
 
   // Get user login informations
   .post("/api/login", handleLogIn)
