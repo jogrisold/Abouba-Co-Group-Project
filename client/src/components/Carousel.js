@@ -49,15 +49,18 @@ export const Carousel = () => {
     )
 };
 
+// Align in center
 const Wrapper = styled.div` 
     justify-content: center;
     align-items: center;
 `;
+// Put the elements in a row
 const FlexRow = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
 `;
+// Make the buttons display in page nicely
 const Button = styled.button`
     border: none;
     background-color: white; 
