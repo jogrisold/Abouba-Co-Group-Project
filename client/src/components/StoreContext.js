@@ -29,7 +29,16 @@ const reducer = (state, action) =>{
                     [action.key]: action.product
                 }        
             }
-        } default:
+        } case 'delete-from-cart' : {
+            delete state.cart[action.id]
+            return {
+                ...state,
+                cart: {
+                    ...state.cart
+                }
+            }
+        }
+        default:
         throw new Error('ERROR')
     }; 
 };

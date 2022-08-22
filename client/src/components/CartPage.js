@@ -9,6 +9,9 @@ import ShippingBilling from "./ShippingBilling";
 
 const CartPage = () => {
     const { cart, products, companies, dispatch } = useContext(StoreContext);
+    const handleClickDelete = (productId) => {
+        dispatch({type: 'delete-from-cart', id: productId})
+    }
     let totalPrice = 0;    
     return (
         <>
@@ -31,7 +34,7 @@ const CartPage = () => {
                                     {/* <QuantityIndicator>x{element.quantity}</QuantityIndicator> */}
                                 <AdjustAmount>
                                     <QuantitySelect type='number' id='quantity' name='quantity' value={element.quantity} min='0' max={element.numInStock}/>
-                                    <BsTrash/>
+                                    <DeleteButton onClick={()=>{handleClickDelete(element._id)}}><BsTrash/></DeleteButton>
                                 </AdjustAmount>
                                 <p>${element.price.slice(1) * element.quantity}</p>
                                 </Pricing>
@@ -121,4 +124,17 @@ const ProductName = styled(Link)`
         color: var(--color-tertiary);
     }
 `;
+
+const DeleteButton = styled.button`
+display: flex;
+align-items: center;
+background-color: #fff;
+border: none;
+cursor: pointer;
+transition: ease-in-out 50ms;
+
+&:hover {
+    transform: scale(1.1)
+}`
+
 export default CartPage;
