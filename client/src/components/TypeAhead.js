@@ -1,136 +1,120 @@
-import React, {useState} from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {useState, useContext} from 'react';
+import { StoreContext } from './StoreContext';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const TypeAhead = ({suggestion, handleSelect, categories}) => {
-    const [input, setInput] = useState('')
+const TypeAhead = () => {
+
     const navigate = useNavigate();
-    const filteredSuggestions = () => {
-        return (Object.values(suggestion)).filter(element => {
-            return element.name.toLowerCase().includes(input.toLowerCase()) && input.length > 1
-        })
-    }
-    
+    const {products} = useContext(StoreContext);
+    const [inputValue, setValue] = useState("");
+
+    // Return results that match what the user types
+    const filteredProducts = products.filter(product => {
+                return product.name.toLowerCase().includes(inputValue.toLowerCase())
+            })
+
     return (
-        
-        <Wrapper>
-            <div>
-                <Input 
-                    type='text' 
-                    value = {input}
-                    onChange={(event)=>{
-                        setInput(event.target.value)
-                    }}
-                    onKeyDown={(event)=>{
-                        event.key === "Enter" &&
-                        handleSelect(event.target.value)  
-                    }}
+        <>
+            <SearchDiv>
+                <SearchBar 
+                    type="text" 
+                    value={inputValue} 
+                    onChange={(e) => {setValue(e.target.value)}} 
+                    // onKeyDown={(e) => {
+                    //     e.key === "Enter" && ; Might have to add filtering logic later
+                    // }}
                 />
-                <Button onClick={() => setInput('')}>Clear</Button>
-            </div>
-            
-            {
-            filteredSuggestions().length > 0
-                &&
-                <UoList>
-                    {filteredSuggestions().map(element => {
-                        return ( 
-                            <Suggestion 
-                                key={element._id}
-                                onClick={()=>{
-                                    if(element._id > 0){
-                                        navigate(`/product/${element._id}`);
-                                    } else {
-                                    window.alert("Sorry, that product cannot be found")
-                                    }
-                                }}
-                            >
-                                <FirstHalf>
-                                    {element.name.slice(0, input.length)}
-                                </FirstHalf>
-                                <SecondHalf>
-                                    {element.name.slice(input.length)}
-                                </SecondHalf>
-                                <AccentSpan> 
-                                    in
-                                    <PurpleSpan> 
-                                        {element.category}
-                                    </PurpleSpan>
-                                </AccentSpan>
-                            </Suggestion>
-                        )
-                    })} 
-                </UoList> 
-            }
-        </Wrapper>
-    )
+                <ClearBtn onClick={()=> {setValue("")}}>Clear</ClearBtn>
+            </SearchDiv>
+
+        {
+            // Render matches
+            filteredProducts.length > 0 && inputValue.length >= 2 
+            &&
+            <ProductList>
+                {
+                    filteredProducts.map(product => {
+                        // Find index of word and split for styling
+                        let indexOfsecondHalf = product.name.toLowerCase().indexOf(inputValue.toLowerCase())
+                        let firstHalf = product.name.slice(0, indexOfsecondHalf + inputValue.length)
+                        let secondHalf = product.name.slice(indexOfsecondHalf + inputValue.length)
+                        // Clicking a suggestion navigates to the product details page
+                        return <ProductListItem 
+                                    key={product._id} 
+                                    onClick={()=> {navigate(`/product/${product._id}`)}}
+                                >
+                                    {firstHalf}<Prediction>{secondHalf}</Prediction> <Category>in <CategorySpan>{product.category}</CategorySpan></Category>
+                                </ProductListItem>
+                    })
+                }
+            </ProductList> 
+        }
+    </>
+    );
 };
 
 export default TypeAhead;
 
-const Wrapper = styled.div`
-    /* display: flex;
-    gap: 0.5rem;
-    flex-direction: column; */
+const SearchDiv = styled.div`
+    margin: 50px;
+    position: absolute;
+    top: 180px;
+    left: 250px;
 `;
-
-const Input = styled.input`
-    border: 1px solid var(--color-primary);
-    border-radius: 5px;
-    font-size: 1.5rem;
-    padding: 0.4rem 0.7rem;
-    margin: 80px 0;
+const Category = styled.span`
+    font-style: italic;
+    font-size: 12px;
+`;
+const CategorySpan = styled.span`
+    color: var(--color-gold);
+`;
+const SearchBar = styled.input`
+    font-size: 16px;
+    height: 26px;
     width: 400px;
+    padding-left: 8px;
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
+    &:focus-visible {
+        outline: 2px solid var(--color-secondary);
+    }
 `;
-
-const Button = styled.button`
-    background: var(--color-quarternary);
-    color: white;
-    font-size: 1.5rem;
-    padding: 0.5rem 1.5rem;
+const ClearBtn = styled.button`
+    color: #fff;
+    background-color: var(--color-quarternary);
     border: none;
-    border-radius: 6px;
-    margin-left: 0.8rem;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 18px;
+    margin-left: 10px;
+    &:focus-visible {
+        outline: 4px lightblue solid ;
+    }
     &:hover{
         background-color: var(--color-secondary);
     }
 `;
-
-const UoList = styled.ul`
-    border: 1px solid black;
-    max-width: 400px;
-    z-index: 1;
+const ProductList = styled.ul`
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 10px;
+    width: 500px;
+    margin-top: 5px;
+    background-color: white;
+    font-size: 18px;
     position: absolute;
-    background-color: white;
-    margin: 100px 0 100px 0;
-    width: inherit;
+    top: 29%;
+    left: 300px;
 `;
-
-const Suggestion = styled.li`
-    width: inherit;
-    margin: 0.5rem;
-    padding: 0.25rem;
-    line-height: 1.3;
-    background-color: white;
-    cursor: pointer;
-    &:hover,
-    &:focus,
-    &:active {
-        background: var(--color-primary);
+const ProductListItem = styled.li`
+    padding: 10px;
+    font-size: 18px;
+    &:hover {
+        background-color: whitesmoke;
+        border-radius: 5px;
     }
 `;
-const FirstHalf = styled.span`
+const Prediction = styled.span`
     font-weight: bold;
-    width: 400px;
-`;
-const SecondHalf = styled.span`
-    width: 400px;
-`;
-
-const PurpleSpan = styled.span`
-    color: var(--color-secondary);
-`;
-
-const AccentSpan = styled.span`
-    font-style: italic;
 `;
