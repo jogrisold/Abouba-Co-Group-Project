@@ -11,13 +11,15 @@ import { UserContext } from "./UserContext";
 export const Header = () => {
 
     const navigate = useNavigate();
-    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
-
+    const {isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser} = useContext(UserContext);
+    console.log(isLoggedIn);
     const handleClick = (routename) => {
         navigate(`/${routename}`)
     }
     const handleClickLogOut = () => {
-        setIsLoggedIn(false)
+        setCurrentUser(null);
+        setIsLoggedIn(false);
+        console.log("setIsLogged in to false")
         // set cart to empty again?
     }
 
@@ -29,7 +31,7 @@ export const Header = () => {
                 <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
                 <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
                 {
-                    isLoggedIn 
+                    isLoggedIn
                     ? <LogOut
                         onClick={handleClickLogOut}
                         >
