@@ -65,36 +65,29 @@ const handleLogIn = async (req, res) => {
 const handleSignIn = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
-  let body = req.body;
+  let user = null;
 
   try {
     await client.connect();
-    const user = await db.collection("users").findOne({ email: body.email });
-    if (user) {
-      // Check if the entered email already exists in the users collection
-      res.status(200).json({
-        status: 400,
-        data: req.body,
-        message: "That email already exists",
-      });
-    } else {
-      body._id = uuidv4();
+    user = await db.collection("users").findOne({ email: req.body.email });
+
+    // Check if the entered email already exists in the users collection
+    if (!user) {
+      req.body._id = uuidv4();
       // Steps to encrypt the password
       // const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       // Inserts the following two empty arrays
-      body.favorites = [];
-      body.purchaseHistory = [];
-      body.password = hashedPassword;
-
+      req.body.favorites = [];
+      req.body.purchaseHistory = [];
+      req.body.password = hashedPassword;
       // The new user account will be created in the database
       // The password will be stored encrypted and cannot be reverted
-      const userInserted = await db.collection("users").insertOne(body);
+      const userInserted = await db.collection("users").insertOne(req.body);
       if (userInserted) {
         res.status(200).json({
           status: 200,
-          data: req,
-          body,
+          data: req.body,
         });
       } else {
         res.status(404).json({
@@ -103,6 +96,12 @@ const handleSignIn = async (req, res) => {
           message: "The Sign in creation has failed",
         });
       }
+    } else {
+      res.status(200).json({
+        status: 200,
+        data: req.body,
+        message: "That email already exists",
+      });
     }
   } catch (err) {
     res.status(500).json({
