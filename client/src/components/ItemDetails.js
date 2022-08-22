@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { StoreContext } from "./StoreContext";
 import { useParams, Link } from "react-router-dom";
-import {MdOutlineArrowBackIosNew} from 'react-icons/md'
+import {MdKeyboardArrowRight} from 'react-icons/md'
+import { Drop } from "./LinkHomepage";
 import DefaultCircularProgress from "./DefaultCircularProgress"
+import LinkHomepage from "./LinkHomepage";
 
 const ItemDetails = () => {
     const [product, setProduct] = useState(null);
@@ -54,7 +56,7 @@ const ItemDetails = () => {
                 setCompany(data.data)
             })
         })
-    }, [id])
+    }, [])
 
     // Validate that quantity is greater than 0
     const handleCartSubmit = (e) =>{
@@ -70,21 +72,25 @@ const ItemDetails = () => {
             <>
       
             <Wrapper>
-            <div style={{width: '100%'}}>
-            <HomeLink to='/'><MdOutlineArrowBackIosNew/>Homepage</HomeLink>
-            </div>
+            {/* <div style={{width: '100%'}}> */}
+            <LinkHomepage/>
+            {/* </div> */}
                
                 <Content>
                     <Image src={product.imageSrc}/>
                     <FlexCol>
-                        <ProductName>{product.name}</ProductName>
-                        <ProductInformation>{product.category} // {product.body_location}</ProductInformation>
-                        <div>{product.price}</div>
-                        <div>{company.name}</div>
-                        <UpdateCart onSubmit={(e)=> {handleCartSubmit(e, product)}}>
-                            <QuantitySelect onChange={(e)=> {setQuantity(e.target.value)}} type='number' id='quantity' name='quantity' value={quantity} min='1' max={product.numInStock}/>
-                            <AddCart type="submit">Add to Cart</AddCart>
-                        </UpdateCart>
+                        <TitleDetails>
+                            <ProductName>{product.name}</ProductName>
+                            <ProductInformation>{product.category} <Drop><MdKeyboardArrowRight/></Drop> {product.body_location}</ProductInformation>
+                            <CompanyName href={company.url}>{company.name}</CompanyName>
+                        </TitleDetails>
+                        <CartDetails>
+                            <Price>{product.price}</Price>
+                            <UpdateCart onSubmit={(e)=> {handleCartSubmit(e, product)}}>
+                                <QuantitySelect onChange={(e)=> {setQuantity(e.target.value)}} type='number' id='quantity' name='quantity' value={quantity} min='1' max={product.numInStock}/>
+                                <AddCart type="submit">Add to Cart</AddCart>
+                            </UpdateCart>
+                        </CartDetails>
                     </FlexCol>
                 </Content>
             </Wrapper>
@@ -93,7 +99,9 @@ const ItemDetails = () => {
         )
     } else {
         return (
-            <DefaultCircularProgress/>
+            <Wrapper>
+                <DefaultCircularProgress/>
+            </Wrapper>
         )
     }
 }
@@ -109,42 +117,44 @@ flex-direction: column;
 align-items: center;
 width: 80%;
 padding: 36px 0;
+height: 100vh;
 `
 const Image = styled.img`
-width: 190px;
+width: 350px;
 height: 100%;
+border-radius: 5px;
 `
 const Content = styled.div`
 display: flex;
 align-items: center;
 gap: 16px;
+margin-top: 100px;
 `
 const FlexCol = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: center;
+justify-content: space-between;
 height: 100%;
 width: 400px;
-padding: 8px 4px;
+padding: 8px 50px;
 gap: 8px;`
 
-const ProductName = styled.div`
+const TitleDetails = styled.div``;
+
+const CartDetails = styled.div``;
+
+const ProductName = styled.h3`
 font-size: 1.25rem;
 font-weight: 700;
-`
-const HomeLink = styled(Link)`
-display: flex;
-align-items: center;
-color: black;
-text-decoration: none;
-width: 30%;
-padding: 30px 0px;
-margin: 0 36px;
+text-align: left;
+margin-bottom: 15px;
 `
 const QuantitySelect = styled.input`
 font-size: 1.25rem;
-padding: 2px;
+padding: 8px;
 text-align: center;
+border: 2px solid var(--color-tertiary);
+border-radius: 5px;
 `
 const UpdateCart = styled.form`
 display: flex;
@@ -153,18 +163,34 @@ height: 30px;
 gap: 8px;`
 
 const AddCart = styled.button`
-height: 100%;
-font-size: 1rem;
-padding: 4px 16px;
-background: #fff;
-transition: all .03s ease-in-out;
-
-&:hover {
-    transform: scale(1.02)
-}
-cursor: pointer;
+    background: var(--color-secondary);
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    margin-left: 0.8rem;
+    cursor: pointer;
+    transition: ease-in-out 100ms;
+    &:hover{
+        background-color: var(--color-gold);
+    }
+`;
+const Price = styled.p`
+    font-size: 22px;
+    margin-bottom: 50px;
+`
+const ProductInformation = styled.p`
+    margin-bottom: 10px;
 `
 
-const ProductInformation = styled.div``
-
-const CompanyName = styled(Link)``
+const CompanyName = styled.a`
+    text-decoration: none;
+    color: var(--color-tertiary);
+    font-weight: bold;
+    font-size: 18px;
+    transition: ease-in-out 100ms;
+    &:hover {
+        color: var(--color-primary);
+    }
+`
