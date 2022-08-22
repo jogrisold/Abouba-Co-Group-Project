@@ -5,11 +5,10 @@ import { Carousel } from "./Carousel"
 import Sidebar from "./SideBar";
 import Typeahead from "./TypeAhead";
 import { StoreContext } from './StoreContext';
-import { Navigate, useNavigate } from 'react-router-dom';
 import DefaultCircularProgress from "./DefaultCircularProgress";
 
 const Homepage = () =>{
-    const navigate = useNavigate();
+
     const {products} = useContext(StoreContext);
 
     return (
@@ -22,6 +21,7 @@ const Homepage = () =>{
                 products &&
                     <FlexColumn>
                         <Carousel />
+                        {/* DT - What is this handleSelect doing? */}
                         <Typeahead
                             suggestion = {products}
                             handleSelect = { (element) =>{
@@ -29,26 +29,18 @@ const Homepage = () =>{
                             }}
                         />
                         <Store>
-                            {products.map(product => {
-                                return (
-                                    <ProductCard product={product}/>
-                                )
+                            {/* Map through products to render cards */}
+                            {
+                                products.map(product => {
+                                    return (
+                                        <ProductCard key={product._id} product={product}/>
+                                    )
+                                })
                             }
-                                
-                            )}
-                        {/* To do: map through all products from backend */}
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
-                            <ProductCard/>
                         </Store>
                     </FlexColumn>
                 }
+                {/* Render loading circle */}
                 {
                     !products &&
                         <DefaultCircularProgress/>
