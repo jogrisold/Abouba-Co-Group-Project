@@ -19,10 +19,6 @@ const handleLogIn = async (req, res) => {
   const _option = {
     projection: {
       _id: 0,
-      given_name: 0,
-      family_name: 0,
-      favorites: 0,
-      purchaseHistory: 0,
     },
   };
   let body = req.body;
@@ -38,7 +34,7 @@ const handleLogIn = async (req, res) => {
       if (await bcrypt.compare(req.body.password, user.password)) {
         res.status(200).json({
           status: 200,
-          data: body.email,
+          data: user,
           message: "Success",
         });
       } else {
@@ -97,7 +93,8 @@ const handleSignIn = async (req, res) => {
       if (userInserted) {
         res.status(200).json({
           status: 200,
-          data: userInserted,
+          data: req,
+          body,
         });
       } else {
         res.status(404).json({
