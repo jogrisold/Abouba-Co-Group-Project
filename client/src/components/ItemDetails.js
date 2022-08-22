@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { StoreContext } from "./StoreContext";
 import { useParams, Link } from "react-router-dom";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
 import DefaultCircularProgress from "./DefaultCircularProgress"
@@ -7,16 +8,43 @@ import DefaultCircularProgress from "./DefaultCircularProgress"
 const ItemDetails = () => {
     const [product, setProduct] = useState(null);
     const [company, setCompany] = useState(null);
+    const [quantity, setQuantity] = useState(1);
     const productId = useParams();
     const id = parseInt(productId.productId);
 
+    const { dispatch, cart } = useContext(StoreContext);
+
+
+    //Add single or multiple products to cart
+    const addToCart = (product) => {
+
+        // Check whether the product is already in the cart
+        if (cart[product._id]){
+
+            // Check whether adding the new quantity will exceed the number available
+            // If yes, set to max available and log error
+            if (cart[product._id].quantity + +quantity > product.numInStock){
+                product.quantity = product.numInStock;
+                console.log("You have exceeded the available limit") //DT - Option to add snackbar notification
+            }
+            // Else, add new quantity to existing quantity
+            else {
+                product.quantity = cart[product._id].quantity + +quantity
+            }
+        }
+
+        // If the product is not yet in the cart, add a new quantity key with the amount specified
+        else {
+                product.quantity = +quantity
+        }
+        dispatch({type: 'add-to-cart', key: product._id, product: product})
+    }
 
     //fetch for individual product
     useEffect(()=>{
         fetch(`/api/products/${id}`)
         .then((res)=>res.json())
         .then((data)=>{
-            console.log(data)
             setProduct(data.data)
             // second fetch to get company by id, uses data returned from previous fetch
             // to access the companyId needed for url param
@@ -26,10 +54,14 @@ const ItemDetails = () => {
                 setCompany(data.data)
             })
         })
-    }, [])
+    }, [id])
 
+    // Validate that quantity is greater than 0
     const handleCartSubmit = (e) =>{
         e.preventDefault();
+        if (quantity > 0){
+            addToCart(product)
+        }
     }
 
 
@@ -49,9 +81,9 @@ const ItemDetails = () => {
                         <ProductInformation>{product.category} // {product.body_location}</ProductInformation>
                         <div>{product.price}</div>
                         <div>{company.name}</div>
-                        <UpdateCart>
-                            <QuantitySelect type='number' id='quantity' name='quantity' min='1' max={product.numInStock}/>
-                            <AddCart>Add to Cart</AddCart>
+                        <UpdateCart onSubmit={(e)=> {handleCartSubmit(e, product)}}>
+                            <QuantitySelect onChange={(e)=> {setQuantity(e.target.value)}} type='number' id='quantity' name='quantity' value={quantity} min='1' max={product.numInStock}/>
+                            <AddCart type="submit">Add to Cart</AddCart>
                         </UpdateCart>
                     </FlexCol>
                 </Content>
