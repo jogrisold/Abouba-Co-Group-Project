@@ -122,7 +122,6 @@ const Center= styled.div`
     width: 100%;
     justify-content: center;
 
-    
 `;
 const Wrapper = styled.div`
   border: none;

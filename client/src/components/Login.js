@@ -60,11 +60,12 @@ const Login = () => {
           </span>
         </div>
       ) : (
+        <Center>
         <Wrapper>
-          <h1>Sign In</h1>
+          <H1>Log In</H1>
           <form onSubmit={handleSubmit}>
             <LoginSection>
-              <label htmlFor="email">Email:</label>
+              <Label htmlFor="email">Email:</Label>
               <Input
                 type="email"
                 placeholder="Email"
@@ -74,7 +75,7 @@ const Login = () => {
                 // autoComplete='off'
                 onChange={(e) => setUserEmail(e.target.value)}
               />
-              <label htmlFor="password">Password:</label>
+              <Label htmlFor="password">Password:</Label>
               <Input
                 type="password"
                 placeholder="Password"
@@ -86,53 +87,106 @@ const Login = () => {
             </LoginSection>
           </form>
           <SignInSection>
-            <div>
-              <span>Don't have an account? </span>
-              <Link to="/signin">Sign Up </Link>
-            </div>
+            <FlexRow>
+              <NoAccount>Don't have an account? </NoAccount>
+              <SignUpLink href="/signin">Sign Up </SignUpLink>
+            </FlexRow>
           </SignInSection>
         </Wrapper>
+        </Center>
       )}
     </>
   );
 };
 
+export default Login;
+
+const Center= styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`;
 const Wrapper = styled.div`
   border: none;
   border-radius: 5px;
-  width: 280px;
-  background-color: #4d5cdf;
-  color: white;
-  padding: 20px 20px 20px 20px;
-  margin: 200px 400px;
+  width: 450px;
+  background-color: var(--color-secondary);
+  padding: 50px;
+  margin: 100px 0 100px 0;
   h1 {
     margin: 20px 0 20px;
   }
-  /* position: absolute;
-  top: 50%;
-  left: 30%; */
+`;
+const H1 = styled.h1`
+    text-align: left;
+    padding: 0 0 30px 0;
+    color: white;
+    font-size: 36px;
+`;
+const Label = styled.label`
+    font-size: 1rem;
+    color: white;
+    text-align: left;
+    font-size: 24px;
+    width: 100%;
 `;
 const Input = styled.input`
-  width: 240px;
+  font-size: 24px;
+  width: 100%;
   height: 40px;
   border-radius: 5px;
   border: none;
+  margin: 0 0 10px 0;
+
 `;
 const Button = styled.button`
-  width: 240px;
-  height: 40px;
+  width: 100%;
+  height: 45px;
   margin: 0 0 10px;
   border-radius: 5px;
   border: none;
+  margin: 10px 0;
 `;
+const SignUp = styled.div`
+  color: white;
+  font-size: 38px;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  margin: 10px 0 30px 0;
+
+`;
+const UserInformations = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+
 const Error = styled.div``;
 const LoginSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
   /* border: solid 10px red; */
-  width: 260px;
+  width: 100%;
 `;
-const SignInSection = styled.div``;
-
-export default Login;
+const SignInSection = styled.div`
+`;
+const SignUpLink = styled.a`
+  color: white;
+  font-size: 12px;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 5px;
+  text-decoration: none;
+`;
+const NoAccount = styled.div`
+  color: white;
+  font-size: 18px;
+`;
+const FlexRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
