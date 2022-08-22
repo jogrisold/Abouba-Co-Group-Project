@@ -1,39 +1,56 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { StoreContext } from "./StoreContext";
+import { useContext } from "react";
 
 
 const ShippingBilling = () => {
+
+    const {cart} = useContext(StoreContext);
+    const handleSubmit = (e, action) => {
+        e.preventDefault();
+        const form = new FormData(document.forms.shipDetailsForm)
+        const formObj = {
+            firstName: form.get('fname'),
+            lastName: form.get('lname'),
+            email: form.get('email'),
+            city: form.get('city'),
+            province: form.get('province'),
+            country: form.get('country')
+        }
+        action ='/test'
+    }
     return (<>
         <SubHeader>Shipping details</SubHeader>
-            <ShippingForm>
+            <ShippingForm action='http://localhost:4000/test' method="post" id="shipDetailsForm">
                 <FlexRow>
                     <FlexCol>
                         <Label for='fname'>First name</Label>
-                        <Input type='text' id='fname'/>
+                        <Input type='text' id='fname' name='fname'/>
                     </FlexCol>
                     <FlexCol>
                         <Label2 for='lname'>Last name</Label2>
-                        <Input2 type='text' id='lname' />
+                        <Input2 type='text' id='lname' name='lname'/>
                     </FlexCol>
                 </FlexRow>
                     <Label for='email'>Email</Label>
-                    <Input type='email' id='email'/>
+                    <Input type='email' id='email' name='email'/>
                 <FlexRow>
                     <FlexCol>
                         <Label for='city'>City</Label>
-                        <Input type='text' id='city'/>
+                        <Input type='text' id='city' name='city'/>
                     </FlexCol>
                     <FlexCol>
                         <Label2 for='province'>Province</Label2>
-                        <Input2 type='text' id='province'/>
+                        <Input2 type='text' id='province' name='province'/>
                     </FlexCol>
                 </FlexRow>
                 <Label for='country'>Country</Label>
-                <Input type='text' id='country'/>
+                <Input type='text' id='country' name='country'/>
                 
                 <BillingDetails>Billing Details</BillingDetails>
                 <Label for='credit-card'>Credit Card</Label>
-                <CreditCardInput type='text' id='credit-card'/>
+                <CreditCardInput type='text' id='credit-card' name='credit-card'/>
                 <FlexRow>
                     <FlexCol>
                         <Label for='expiry'>Expiry</Label>
@@ -45,12 +62,12 @@ const ShippingBilling = () => {
                     </FlexCol>
                     <FlexCol>
                         <Label2 for='CVV'>CVV</Label2>
-                        <Input2 type='text' id='CVV'/>
+                        <Input2 type='text' id='CVV' name='CVV'/>
                     </FlexCol>
                 </FlexRow>
                 <LastRow>
                     <CancelBtn>Cancel</CancelBtn>
-                    <PurchaseBtn>Purchase</PurchaseBtn>
+                    <PurchaseBtn type="submit" value="submit">Purchase</PurchaseBtn>
                 </LastRow>
             </ShippingForm>
     </>)
