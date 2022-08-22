@@ -40,6 +40,8 @@ const GlobalStyles = createGlobalStyle`
         font-size: 100%;
         vertical-align: baseline;
     }
+
+
     /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure,
     footer, header, hgroup, menu, nav, section {
@@ -67,7 +69,7 @@ const GlobalStyles = createGlobalStyle`
     button {
     color: var(--color-secondary);
     font-family: var(--font-heading);
-    font-size: 32px;
+    font-size: 20px;
     text-align: center;
     }
 
