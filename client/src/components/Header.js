@@ -5,18 +5,21 @@ import logoblue from "../assets/logoblue.png";
 import { BsCartDash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 
 export const Header = () => {
 
     const navigate = useNavigate();
-    const {loggedIn, setLoggedIn} = useContext(StoreContext);
-
+    const {isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser} = useContext(UserContext);
+    console.log(isLoggedIn);
     const handleClick = (routename) => {
         navigate(`/${routename}`)
     }
     const handleClickLogOut = () => {
-        setLoggedIn(false)
+        setCurrentUser(null);
+        setIsLoggedIn(false);
+        console.log("setIsLogged in to false")
         // set cart to empty again?
     }
 
@@ -28,7 +31,7 @@ export const Header = () => {
                 <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
                 <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
                 {
-                    loggedIn 
+                    isLoggedIn
                     ? <LogOut
                         onClick={handleClickLogOut}
                         >
@@ -119,7 +122,7 @@ const LogOut = styled.button`
     font-size: 20px;
     border: 2px solid white;
     border-radius: 10px;
-    width: 65px;
+    width: 85px;
     height: 50px;
     padding: 5px;
     color: white;
