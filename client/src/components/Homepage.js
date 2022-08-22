@@ -21,13 +21,7 @@ const Homepage = () =>{
                 products &&
                     <FlexColumn>
                         <Carousel />
-                        {/* DT - What is this handleSelect doing? */}
-                        <Typeahead
-                            suggestion = {products}
-                            handleSelect = { (element) =>{
-                                console.log(element)
-                            }}
-                        />
+                        <Typeahead/>
                         <Store>
                             {/* Map through products to render cards */}
                             {
@@ -63,7 +57,7 @@ const Store = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin: 0 40px 0 250px;
+    margin: 80px 40px 0 250px;
 `
 const FlexColumn = styled.div`
     display: flex;
