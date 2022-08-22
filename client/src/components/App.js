@@ -8,6 +8,7 @@ import Login from "./Login";
 import SignIn from "./SignIn";
 import Profile from "./Profile";
 import CartPage from "./CartPage";
+import Footer from "./Footer";
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route exact path="/profile" element={<Profile/>}/>
           <Route exact path="/cart" element={<CartPage/>}/>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

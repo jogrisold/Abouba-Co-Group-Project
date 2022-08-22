@@ -1,6 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import styled from "styled-components";
 
 const Login = () => {
@@ -16,9 +22,10 @@ const Login = () => {
       body: JSON.stringify(userLogin),
     };
 
-    fetch("/api/users", options)
+    fetch("/api/login", options)
       .then((res) => res.json())
       .then((data) => {
+        // The password is good redirect user to the Homepage
         console.log(data);
       })
       .catch((err) => console.log(err));
