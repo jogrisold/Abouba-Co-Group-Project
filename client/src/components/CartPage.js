@@ -9,8 +9,14 @@ import ShippingBilling from "./ShippingBilling";
 
 const CartPage = () => {
     const { cart, products, companies, dispatch } = useContext(StoreContext);
+    
     const handleClickDelete = (productId) => {
         dispatch({type: 'delete-from-cart', id: productId})
+    }
+
+    const handleUpdateCart = (e, product) => {
+        product.quantity = parseInt(e.target.value)
+        dispatch({type: 'add-to-cart', key: product._id, product: product})
     }
     let totalPrice = 0;    
     return (
@@ -33,15 +39,16 @@ const CartPage = () => {
                                     <p>{element.price} x</p>
                                     {/* <QuantityIndicator>x{element.quantity}</QuantityIndicator> */}
                                 <AdjustAmount>
-                                    <QuantitySelect type='number' id='quantity' name='quantity' value={element.quantity} min='0' max={element.numInStock}/>
+                                    <QuantitySelect type='number' id='quantity' name='quantity' defaultValue={element.quantity} min='1' max={element.numInStock} 
+                                    onChange={(e)=>{handleUpdateCart(e, element)}}/>
                                     <DeleteButton onClick={()=>{handleClickDelete(element._id)}}><BsTrash/></DeleteButton>
                                 </AdjustAmount>
-                                <p>${element.price.slice(1) * element.quantity}</p>
+                                <p>${(element.price.slice(1) * element.quantity).toFixed(2)}</p>
                                 </Pricing>
                             </ItemRow>
                         )
                     })}
-                    <Total>Total: ${totalPrice}</Total>
+                    <Total>Total: ${totalPrice.toFixed(2)}</Total>
                     <ShippingBilling/>
                     </ul>}
             </Wrapper>

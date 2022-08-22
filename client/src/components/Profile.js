@@ -4,11 +4,13 @@ import { useContext } from "react";
 import { StoreContext } from "./StoreContext";
 import { BsSuitHeart } from "react-icons/bs";
 import { BsCartDash } from "react-icons/bs";
+import { UserContext } from "./UserContext";
 
 
 const Profile = () => {
 
     const {products} = useContext(StoreContext);
+    const {currentUser} = useContext(UserContext)
 
     return (
         <Center>
