@@ -6,11 +6,13 @@ const GlobalStyles = createGlobalStyle`
         --color-secondary: #474E6A;
         --color-tertiary: #5D5B67 ;
         --color-quarternary: #6A6A5F;
+        --color-gold:#BF9663;
         --font-heading: 'Noto Sans', Arial, Helvetica, sans-serif;
         --font-body: 'Helvetica', Arial, Helvetica, sans-serif;
         --padding-page: 24px;
     }
 
+    /* #BF9663 */
     /* http://meyerweb.com/eric/tools/css/reset/
         v2.0 | 20110126
         License: none (public domain)
