@@ -21,13 +21,14 @@ const handleLogIn = async (req, res) => {
       _id: 0,
     },
   };
-  let body = req.body;
+  // let body = req.body;
+  let user = null;
 
   try {
     await client.connect();
-    const user = await db
+    user = await db
       .collection("users")
-      .findOne({ email: body.email }, _option);
+      .findOne({ email: req.body.email }, _option);
 
     if (user) {
       // Check if the database encrypted password matches the login
@@ -40,7 +41,7 @@ const handleLogIn = async (req, res) => {
       } else {
         res.status(404).json({
           status: 404,
-          data: body.email,
+          data: req.body,
           message: "Invalid Password",
         });
       }
@@ -52,6 +53,7 @@ const handleLogIn = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log("catch: ", err);
     res.status(500).json({
       status: 500,
       data: req.body,
