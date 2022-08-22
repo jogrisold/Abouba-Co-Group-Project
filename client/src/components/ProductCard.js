@@ -2,58 +2,54 @@ import { useContext } from 'react'
 import { StoreContext } from './StoreContext'
 import styled from 'styled-components'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
-import { useState, useEffect } from 'react'
 import { ImCheckmark } from 'react-icons/im'
 import { useNavigate } from 'react-router-dom'
 import DefaultCircularProgress from './DefaultCircularProgress'
 
 
 export const ProductCard = ({product}) => {
-    const { dispatch, products, companies, cart } = useContext(StoreContext);
-    const [company, setCompany] = useState('Barska');
+
+    const { dispatch, companies, cart } = useContext(StoreContext);
     const navigate = useNavigate();
 
+    //Add single product to cart
     const addToCart = (product) => {
         dispatch({type: 'add-to-cart', key: product._id, product: product})
     }
 
+    //Navigate to product details page
     const handleClickCard = (productId) => {
         navigate(`/product/${productId}`)
     }
 
-    // useEffect(()=>{
-    //     fetch(`/api/companies/${product.companyId}`)
-    //     .then((res)=>res.json())
-    //     .then((data)=>{
-    //         console.log(data)
-    //         setCompany(data.data)
-    //     })
-    // }, [])
-
-    // if (products.length > 0) {
-    //     const product = products[0]
-  
     if (product) {
-        // const product = products[0]
+        //Find the company object to render the company name
+        const productCompany = companies.find(company => {
+            return company._id === product.companyId
+            })
 
         return (
+            // Card redirects to product details page
             <Card onClick={()=>{handleClickCard(product._id)}}>
-            <Image src={product.imageSrc}/>
-            <ContentInformation>
-                <CompanyName>{company}</CompanyName>
-                <ProductName>{product.name}</ProductName>
-                <Flex>
-                    <TextBold>{product.price}</TextBold>
-                    <Cart onClick={(e)=>{
-                        e.stopPropagation();
-                        addToCart(product)}}>
-                        <AiOutlineShoppingCart size = {40}/>
-                    </Cart>
-                </Flex>
-            </ContentInformation>
+                <Image src={product.imageSrc}/>
+                <ContentInformation>
+                    <CompanyName>{productCompany.name}</CompanyName>
+                    <ProductName>{product.name}</ProductName>
+                    <Flex>
+                        <TextBold>{product.price}</TextBold>
+                        {/* Clicking icon adds product to cart */}
+                        <Cart onClick={(e)=>{
+                            e.stopPropagation();
+                            addToCart(product)}}
+                        >
+                            <AiOutlineShoppingCart size = {40}/>
+                        </Cart>
+                    </Flex>
+                </ContentInformation>
             </Card>
         )
 
+    // Render loading circle
     } else {
         return <DefaultCircularProgress/>
     }
@@ -66,7 +62,7 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 8px;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -89,32 +85,26 @@ const Flex = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 0;
 `
 const Image = styled.img`
     width: 200px; 
+    max-height: 250px;
     margin: 15px 0;
 `
-
 const ProductName = styled.div`
     font-family: var(--font-body);
 `
-
 const CompanyName = styled.div`
     width: 100%;
+    margin: 5px 0;
     font-family: var(--font-body);
     color: rgba(120, 120, 120, 0.8);
 `
-
-const TextLight = styled.div`
-    font-family: var(--font-body);
-    color: rgba(120, 120, 120);
-`
-
 const TextBold = styled.p`
     font-family: var(--font-body);
     font-weight: 700;
 `
-
 const Cart = styled.button`
     width: 40px;
     height: 40px;
