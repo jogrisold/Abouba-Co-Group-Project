@@ -14,6 +14,21 @@ export const ProductCard = ({product}) => {
 
     //Add single product to cart
     const addToCart = (product) => {
+        // Check whether the product is already in the cart
+        if (cart[product._id]){
+            // Check whether adding the new quantity will exceed the number available
+            // If yes, set to max available and log error
+            if (cart[product._id].quantity + 1 > product.numInStock){
+                product.quantity = product.numInStock;
+                console.log("You have exceeded the available limit") //DT - Option to add snackbar notification
+            }
+            else {
+                product.quantity = cart[product._id].quantity + 1
+            }
+        }
+        else {
+                product.quantity = 1
+            }
         dispatch({type: 'add-to-cart', key: product._id, product: product})
     }
 
