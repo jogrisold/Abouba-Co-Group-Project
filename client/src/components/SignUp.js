@@ -8,7 +8,9 @@ import {
   Link,
 } from "react-router-dom";
 import styled from "styled-components";
+
 import { UserContext } from "./UserContext";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const SignUp = () => {
   const { currentUser, setCurrentUser, isLoggedIn, setIsLoggedIn } =
@@ -17,12 +19,27 @@ const SignUp = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [userConfirmPassword, setUserConfirmPassword] = useState("");
   const [popUp, setPopUp] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [inputType, setInputType] = useState("password");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
+  
   let navigate = useNavigate();
 
+  // Create a function to toggle visibility of 
+  // password and confirm password inputs by 
+  // changing the type of input
+  const togglePassword =()=>{
+    if(inputType === "password")
+    {
+     setInputType("text")
+     return;
+    }
+    setInputType("password")
+  }
+
+  //Create a function to handle form submission
   const handleSubmit = (e) => {
     // Stop the page from reloading
     e.preventDefault();
@@ -33,7 +50,7 @@ const SignUp = () => {
       given_name: userFirstName,
       family_name: userLastName,
       email: userEmail,
-      password: userPassword,
+      password: passwordInput,
     };
     // Define our options for the post method
     // including stringifying our object to 
@@ -46,10 +63,11 @@ const SignUp = () => {
         "Content-Type": "application/json" 
       },
     };
-    console.log(options.body)
-    // Send a POST request to the server with our
-    // above options
-    if(userPassword === userConfirmPassword){
+
+    // Create a function that will post request the user data
+    // if the user passes the input handling below
+    const addUser = (options) => {
+
       fetch("/api/users", options)
         .then((res) => res.json())
         .then((json) => {
@@ -68,7 +86,7 @@ const SignUp = () => {
             navigate("/");
           } else if (error){
             // Any uncaught json errors
-            window.alert("Error: " + error)
+            window.alert("Error: " + error);
           }
         })
         // Uncaught fetch errors
@@ -78,6 +96,25 @@ const SignUp = () => {
       setPopUp(true);
     }
     };
+
+    // Input Handling
+    // Check if they got the password right
+    if(passwordInput !== confirmPasswordInput ){
+      setErrorMsg("Passwords do not match");
+      setPopUp(true);
+    // This one is not perfect as .gov .org etc will not 
+    // be covered but IIWII
+    } else if (userEmail.toString().includes(".com") !== true ) {
+      setErrorMsg("Email is not valid");
+      setPopUp(true);
+    // ******************************
+    // MORE ELSE IF CAN BE ADDED HERE  
+    // ******************************
+    } else {
+      addUser(options);
+    }
+    };
+
 
   return (
     <>
@@ -144,22 +181,46 @@ const SignUp = () => {
                   onChange={(e) => setUserEmail(e.target.value)}
                 />
                 <Label for='password'>Password</Label>
-                <Input
-                  type="password"
+              <FlexRow>
+                <Input 
+                  type={inputType} 
                   placeholder="Password"
-                  value={userPassword}
-                  required={true}
-                  onChange={(e) => setUserPassword(e.target.value)}
+                  value={passwordInput} 
+                  aria-describedby="password-constraints"
+                  required = {true}
+                  onChange={(e) => setPasswordInput(e.target.value)} 
                 />
-                <Label for='confirm-password'>Confirm Password</Label>
-                <Input
-                  type="password"
+                <TogglePassword 
+                  type="button"
+                  aria-label="Show password as plain text.
+                    Warning: this will display your password on the screen."
+                  onClick={togglePassword}>
+                  { inputType ==="password"
+                  ? <AiOutlineEyeInvisible size = {25} />
+                  : <AiOutlineEye size = {25}/>}
+                </TogglePassword>
+             </FlexRow>
+              <Label for='confirm-password'>Confirm Password</Label>
+              <FlexRow>
+                <Input 
+                  type={inputType} 
                   placeholder="Confirm Password"
-                  value={userConfirmPassword}
-                  required={true}
-                  onChange={(e) => setUserConfirmPassword(e.target.value)}
-                />
-                <Button type="submit">Sign Up</Button>
+                  aria-describedby="password-constraints"
+                  value={confirmPasswordInput} 
+                  required = {true}  
+                  onChange={(e)=>setConfirmPasswordInput(e.target.value)} 
+                  />
+                <TogglePassword 
+                  type="button"
+                  aria-label="Show password as plain text.
+                    Warning: this will display your password on the screen."
+                  onClick={togglePassword}>
+                  { inputType ==="password"
+                  ? <AiOutlineEyeInvisible size = {25} />
+                  : <AiOutlineEye size = {25}/>}
+                </TogglePassword>
+             </FlexRow>
+              <Button type="submit">Sign Up</Button>
             </SignUpForm>
           </Wrapper>
         </Center>
@@ -188,7 +249,6 @@ const Center= styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-
 `;
 const Wrapper = styled.div`
   border: none;
@@ -241,7 +301,6 @@ const Input = styled.input`
   border-radius: 5px;
   border: none;
   margin: 0 0 10px 0;
-
 `;
 const Button = styled.button`
   width: 100%;
@@ -271,4 +330,17 @@ const FlexCol = styled.div`
 `;
 const Text = styled.div`
   margin: 20px 0 20px 0 ;
+`;
+const TogglePassword = styled.button`
+    height: 43px;
+    width: 43px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 4px 0 0 1px;
+`;
+const FlexRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `;

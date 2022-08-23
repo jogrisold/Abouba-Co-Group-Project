@@ -9,15 +9,29 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "./UserContext";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const Login = () => {
   const { currentUser, setCurrentUser, isLoggedIn, setIsLoggedIn } =
     useContext(UserContext);
   const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [inputType, setInputType] = useState("password");
   const [validUser, setValidUser] = useState(false);
   const [popUp, setPopUp] = useState(false);
   let navigate = useNavigate();
+
+  // Create a function to toggle visibility of 
+  // password and confirm password inputs by 
+  // changing the type of input
+  const togglePassword =()=>{
+    if(inputType === "password")
+    {
+     setInputType("text")
+     return;
+    }
+    setInputType("password")
+  }
 
   const handleSubmit = (e) => {
     // Stop the page from automatically reloading on submit
@@ -25,7 +39,7 @@ const Login = () => {
     // Create an object to post to the server
     const userLogin = { 
       email: userEmail, 
-      password: userPassword 
+      password: passwordInput 
     };
     // Set up our options sprcifying the body to be posted and the 
     // header data type/ method
@@ -107,13 +121,25 @@ const Login = () => {
                 onChange={(e) => setUserEmail(e.target.value)}
               />
               <Label htmlFor="password">Password:</Label>
-              <Input
-                type="password"
-                placeholder="Password"
-                value={userPassword}
-                required={true}
-                onChange={(e) => setUserPassword(e.target.value)}
-              />
+              <FlexRow>
+                <Input 
+                  type={inputType} 
+                  placeholder="Password"
+                  value={passwordInput} 
+                  aria-describedby="password-constraints"
+                  required = {true}
+                  onChange={(e) => setPasswordInput(e.target.value)} 
+                />
+                <TogglePassword 
+                  type="button"
+                  aria-label="Show password as plain text.
+                    Warning: this will display your password on the screen."
+                  onClick={togglePassword}>
+                  { inputType ==="password"
+                  ? <AiOutlineEyeInvisible size = {25} />
+                  : <AiOutlineEye size = {25}/>}
+                </TogglePassword>
+                </FlexRow>
               <Button type="submit">Continue</Button>
             </LoginSection>
           </LoginForm>
@@ -246,4 +272,11 @@ const FlexCol = styled.div`
 `;
 const Text = styled.div`
   margin: 20px 0 20px 0 ;
+
+`;const TogglePassword = styled.button`
+    height: 43px;
+    width: 43px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 4px 0 0 1px;
 `;
