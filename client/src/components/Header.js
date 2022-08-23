@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // Local dependencies
 import logoblue from "../assets/logoblue.png";
 import { UserContext } from "./UserContext";
+import TypeAhead from "./TypeAhead";
 // Icons
 import { BsCartDash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
@@ -36,6 +37,7 @@ const Header = () => {
         <>
         <Wrapper>
             <Logo src = {logoblue} onClick={()=> {handleClick("")}}/>
+                <TypeAhead />
             <FlexRow>
                 <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
                 <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
@@ -68,15 +70,16 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
     background-color: var(--color-secondary);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 `;
 const FlexRow = styled.div`
-    width: 15%;
+    width: 40%;
     margin-right: 40px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 `;
 const Logo = styled.img`
@@ -118,10 +121,9 @@ const LogIn = styled.button`
     font-size: 20px;
     border: 2px solid white;
     border-radius: 10px;
-    width: 65px;
-    height: 50px;
-    padding: 5px;
-    margin: 10px;
+    width: 85px;
+    height: 60px;
+    padding: 10px;
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
@@ -142,7 +144,6 @@ const LogOut = styled.button`
     height: 50px;
     padding: 5px;
     color: white;
-    margin: 10px;
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
