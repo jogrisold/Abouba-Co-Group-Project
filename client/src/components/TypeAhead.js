@@ -7,12 +7,17 @@ const TypeAhead = () => {
 
     const navigate = useNavigate();
     const {products} = useContext(StoreContext);
-    const [inputValue, setValue] = useState("");
+    const [inputValue, setInputValue] = useState("");
 
     // Return results that match what the user types
     const filteredProducts = products.filter(product => {
                 return product.name.toLowerCase().includes(inputValue.toLowerCase())
             })
+    // When a user clicks on a suggestion, navigate to the item details page and clear the input field
+    const handleSuggestionClick = (product) => {
+        navigate(`/product/${product._id}`)
+        setInputValue("");
+    }
 
     return (
         <>
@@ -21,13 +26,13 @@ const TypeAhead = () => {
                 <SearchBar 
                     type="text" 
                     value={inputValue} 
-                    onChange={(e) => {setValue(e.target.value)}} 
+                    onChange={(e) => {setInputValue(e.target.value)}} 
                     // onKeyDown={(e) => {
                     //     e.key === "Enter" && ; Might have to add filtering logic later
                     // }}
                 />
-                <ClearBtn onClick={()=> {setValue("")}}>Clear</ClearBtn>
-            </SearchDiv>
+                <ClearBtn onClick={()=> {setInputValue("")}}>Clear</ClearBtn>
+            
 
         {
             // Render matches
@@ -43,7 +48,7 @@ const TypeAhead = () => {
                         // Clicking a suggestion navigates to the product details page
                         return <ProductListItem 
                                     key={product._id} 
-                                    onClick={()=> {navigate(`/product/${product._id}`)}}
+                                    onClick={()=> {handleSuggestionClick(product)}}
                                 >
                                     {firstHalf}<Prediction>{secondHalf}</Prediction> <Category>in <CategorySpan>{product.category}</CategorySpan></Category>
                                 </ProductListItem>
@@ -51,6 +56,7 @@ const TypeAhead = () => {
                 }
             </ProductList> 
         }
+        </SearchDiv>
         </FlexCol>
     </>
     );
@@ -59,8 +65,7 @@ const TypeAhead = () => {
 export default TypeAhead;
 
 const SearchDiv = styled.div`
-    display: flex;
-    flex-direction: row;
+    display: relative;
 `;
 const Category = styled.span`
     font-style: italic;
@@ -70,6 +75,7 @@ const CategorySpan = styled.span`
     color: var(--color-gold);
 `;
 const SearchBar = styled.input`
+    position: relative;
     font-size: 16px;
     height: 26px;
     width: 400px;
@@ -87,11 +93,17 @@ const ClearBtn = styled.button`
     border-radius: 5px;
     font-size: 18px;
     margin-left: 30px;
+    padding: 5px 10px;
+    transition: ease-in-out 100ms;
     &:focus-visible {
         outline: 4px lightblue solid ;
     }
     &:hover{
-        background-color: var(--color-secondary);
+        transform: scale(1.1);
+    }
+    &:active{
+        transform: scale(.9);
+        background-color: var(--color-primary);
     }
 `;
 const ProductList = styled.ul`
@@ -103,9 +115,7 @@ const ProductList = styled.ul`
     margin-top: 5px;
     background-color: white;
     font-size: 18px;
-
-    /* top: 15%;
-    left: 370px; */
+    position: absolute;
 `;
 const ProductListItem = styled.li`
     z-index: 1;
@@ -120,8 +130,8 @@ const Prediction = styled.span`
     font-weight: bold;
 `;
 const FlexCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 30px;
 `;

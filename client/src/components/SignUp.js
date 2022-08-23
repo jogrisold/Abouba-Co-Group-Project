@@ -84,17 +84,11 @@ const SignUp = () => {
             setIsLoggedIn(true);
             setCurrentUser(json.data);
             navigate("/");
-          } else if (error){
-            // Any uncaught json errors
-            window.alert("Error: " + error);
           }
         })
         // Uncaught fetch errors
-        .catch((err) => console.log(err));
-    } else {
-      setErrorMsg("Passwords do not match");
-      setPopUp(true);
-    }
+        .catch((err) => console.log(err))
+      // })
     };
 
     // Input Handling
