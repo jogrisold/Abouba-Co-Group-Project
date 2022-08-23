@@ -16,6 +16,7 @@ const Homepage = () =>{
                 <SideBarDiv>
                     <Sidebar />
                 </SideBarDiv>
+                {/* Render products once fetch is complete */}
                 {
                 products &&
                     <FlexColumn>

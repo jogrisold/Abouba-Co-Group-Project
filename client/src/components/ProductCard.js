@@ -80,7 +80,7 @@ export const ProductCard = ({product}) => {
 
 
 const Card = styled.div`
-    z-index:0
+    /* z-index:0; */
     border: 1px solid rgba(120, 120, 120, 0.3);
     width: 300px;
     display: flex;
@@ -141,6 +141,9 @@ const Cart = styled.button`
     cursor: pointer;
     &:hover {
         transform: scale(1.2);
+    }
+    &:active{
+        background-color: lightblue;
     }
 `
 const OutofStock = styled.button`
