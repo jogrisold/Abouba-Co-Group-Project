@@ -23,7 +23,10 @@ const Login = () => {
     // Stop the page from automatically reloading on submit
     e.preventDefault();
     // Create an object to post to the server
-    const userLogin = { email: userEmail, password: userPassword };
+    const userLogin = { 
+      email: userEmail, 
+      password: userPassword 
+    };
     // Set up our options sprcifying the body to be posted and the 
     // header data type/ method
     const options = {
@@ -114,12 +117,12 @@ const Login = () => {
               <Button type="submit">Continue</Button>
             </LoginSection>
           </LoginForm>
-          <SignInSection>
+          <SignUpSection>
             <FlexRow>
               <NoAccount>Don't have an account? </NoAccount>
-              <SignUpLink href="/signin">Sign Up </SignUpLink>
+              <SignUpLink href="/signup">Sign Up </SignUpLink>
             </FlexRow>
-          </SignInSection>
+          </SignUpSection>
         </Wrapper>
         </Center>
       )}
@@ -207,7 +210,7 @@ const LoginSection = styled.div`
   gap: 10px;
   width: 100%;
 `;
-const SignInSection = styled.div`
+const SignUpSection = styled.div`
 `;
 const SignUpLink = styled.a`
   color: white;
