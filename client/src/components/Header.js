@@ -1,26 +1,35 @@
+// Import react dependencies
 import { useContext } from "react";
-import { StoreContext } from "./StoreContext";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+// Local dependencies
 import logoblue from "../assets/logoblue.png";
+import { UserContext } from "./UserContext";
+// Icons
 import { BsCartDash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "./UserContext";
 
-
-export const Header = () => {
-
+// The Header is an element that will sit at the top of 
+// all pages, it is defined as a constant here and passed
+// to App.
+const Header = () => {
+    // Use Context to bring in the needed states for the code below
+    const {isLoggedIn, setIsLoggedIn, setCurrentUser} = useContext(UserContext);
+    // Define a navigator to allow us to use Navigate to move
+    // the user to the desired page without them clicking on 
+    // any links
     const navigate = useNavigate();
-    const {isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser} = useContext(UserContext);
-    console.log(isLoggedIn);
+    
+    // Define a function to handle navgation to 
     const handleClick = (routename) => {
         navigate(`/${routename}`)
     }
     const handleClickLogOut = () => {
         setCurrentUser(null);
         setIsLoggedIn(false);
-        console.log("setIsLogged in to false")
-        // set cart to empty again?
+        // ******************************
+        // TO DO: set cart to empty again
+        // ******************************
     }
 
     return(
@@ -30,8 +39,10 @@ export const Header = () => {
             <FlexRow>
                 <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
                 <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
-                {
-                    isLoggedIn
+                
+                {/* Conditional rendering for button based on 
+                whether the user is logged in or not */}
+                {isLoggedIn
                     ? <LogOut
                         onClick={handleClickLogOut}
                         >
@@ -48,6 +59,9 @@ export const Header = () => {
         </>
     )
 };
+
+// Export the component to be used in App
+export default Header;
 
 const Wrapper = styled.div`
     display: flex;
@@ -83,6 +97,7 @@ const Cart = styled.button`
     transition: ease-in-out 200ms;
     &:hover {
         transform: scale(1.2);
+        color: var(--color-primary);
     }
     `;
 const ProfileBtn = styled.button`
@@ -94,6 +109,7 @@ const ProfileBtn = styled.button`
     transition: ease-in-out 200ms;
     &:hover {
         transform: scale(1.2);
+        color: var(--color-primary);
     }
 `;
 const LogIn = styled.button`
@@ -110,7 +126,7 @@ const LogIn = styled.button`
     text-align: center;
     background-color: var(--color-secondary);
     cursor: pointer;
-    transition: ease-in-out 200ms;
+    transition: ease-in-out 500ms;
     &:hover {
         border-color: var(--color-secondary);
         color:var(--color-secondary);
@@ -137,5 +153,3 @@ const LogOut = styled.button`
         background-color: white;
     }
 `;
-
-export default Header
