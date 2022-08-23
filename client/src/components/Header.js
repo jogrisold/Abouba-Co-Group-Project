@@ -5,9 +5,13 @@ import { useNavigate } from "react-router-dom";
 // Local dependencies
 import logoblue from "../assets/logoblue.png";
 import { UserContext } from "./UserContext";
+import TypeAhead from "./TypeAhead";
 // Icons
 import { BsCartDash } from "react-icons/bs";
+import { BsCartCheckFill } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
+import { style } from "@mui/system";
+import { StoreContext } from "./StoreContext";
 
 // The Header is an element that will sit at the top of 
 // all pages, it is defined as a constant here and passed
@@ -15,12 +19,13 @@ import { FaRegUser } from "react-icons/fa";
 const Header = () => {
     // Use Context to bring in the needed states for the code below
     const {isLoggedIn, setIsLoggedIn, setCurrentUser} = useContext(UserContext);
+    const {cart} = useContext(StoreContext)
     // Define a navigator to allow us to use Navigate to move
     // the user to the desired page without them clicking on 
     // any links
     const navigate = useNavigate();
     
-    // Define a function to handle navgation to 
+    // Navigates to the specified route
     const handleClick = (routename) => {
         navigate(`/${routename}`)
     }
@@ -35,10 +40,23 @@ const Header = () => {
     return(
         <>
         <Wrapper>
-            <Logo src = {logoblue} onClick={()=> {handleClick("")}}/>
+            <LogoAndSearch>
+                <Logo src = {logoblue} onClick={()=> {handleClick("")}}/>
+                <TypeAhead />
+            </LogoAndSearch>
             <FlexRow>
-                <Cart onClick={()=> {handleClick("cart")}}><BsCartDash size = {40}/></Cart>
-                <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
+                {/* Render full cart icon when cart has items in it */}
+                <Cart onClick={()=> {handleClick("cart")}}>
+                        {Object.values(cart).length > 0 
+                            ?<BsCartCheckFill size = {40}/>
+                            :<BsCartDash size = {40}/>
+                        }
+                </Cart>
+                
+                {/* Only render profile page when user is logged in */}
+                {isLoggedIn &&
+                    <ProfileBtn onClick={()=> {handleClick("profile")}}><FaRegUser size = {40}/></ProfileBtn>
+                }
                 
                 {/* Conditional rendering for button based on 
                 whether the user is logged in or not */}
@@ -71,12 +89,17 @@ const Wrapper = styled.div`
     background-color: var(--color-secondary);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 `;
+const LogoAndSearch = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
 const FlexRow = styled.div`
-    width: 15%;
+    width: 40%;
     margin-right: 40px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 `;
 const Logo = styled.img`
@@ -93,11 +116,15 @@ const Cart = styled.button`
     align-items: center;
     background-color: var(--color-secondary);
     border: none;
+    margin: 0 20px;
     cursor: pointer;
     transition: ease-in-out 200ms;
     &:hover {
         transform: scale(1.2);
         color: var(--color-primary);
+    }
+    &:active{
+        transform: scale(.8);
     }
     `;
 const ProfileBtn = styled.button`
@@ -105,11 +132,15 @@ const ProfileBtn = styled.button`
     background-color: var(--color-secondary);
     border: none;
     padding-top: 10px;
+    margin: 0 20px;
     cursor: pointer;
     transition: ease-in-out 200ms;
     &:hover {
         transform: scale(1.2);
         color: var(--color-primary);
+    }
+    &:active{
+        transform: scale(.8);
     }
 `;
 const LogIn = styled.button`
@@ -118,19 +149,24 @@ const LogIn = styled.button`
     font-size: 20px;
     border: 2px solid white;
     border-radius: 10px;
-    width: 65px;
-    height: 50px;
-    padding: 5px;
-    margin: 10px;
+    padding: 8px 10px;
+    margin: 0 20px;
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
     cursor: pointer;
-    transition: ease-in-out 500ms;
+    transition: ease-in 300ms;
     &:hover {
         border-color: var(--color-secondary);
         color:var(--color-secondary);
         background-color: white;
+        transform: scale(1.1);
+    }
+    &:active{
+        border-color: var(--color-quarternary);
+        color: var(--color-quarternary);
+        transition: ease-in 100ms;
+        transform: scale(.8);
     }
 `;
 const LogOut = styled.button`
@@ -138,18 +174,24 @@ const LogOut = styled.button`
     font-size: 20px;
     border: 2px solid white;
     border-radius: 10px;
-    width: 85px;
-    height: 50px;
-    padding: 5px;
+    padding: 8px 10px;
     color: white;
-    margin: 10px;
+    margin: 0 20px;
     align-items: center;
     text-align: center;
     background-color: var(--color-secondary);
     cursor: pointer;
+    transition: ease-in 300ms;
     &:hover {
         border-color: var(--color-secondary);
         color:var(--color-secondary);
         background-color: white;
+        transform: scale(1.1);
+    }
+    &:active{
+        border-color: var(--color-quarternary);
+        color: var(--color-quarternary);
+        transition: ease-in 100ms;
+        transform: scale(.98);
     }
 `;

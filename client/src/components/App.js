@@ -9,6 +9,7 @@ import SignUp from "./SignUp";
 import Profile from "./Profile";
 import CartPage from "./CartPage";
 import Footer from "./Footer";
+import PurchaseConfirmation from "./PurchaseConfirmation";
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/profile" element={<Profile/>}/>
           <Route exact path="/cart" element={<CartPage/>}/>
+          <Route exact path="/confirmation" element={<PurchaseConfirmation/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>
