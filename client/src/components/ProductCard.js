@@ -3,6 +3,7 @@ import { StoreContext } from './StoreContext'
 import styled from 'styled-components'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import { ImCheckmark } from 'react-icons/im'
+import { FcCancel } from 'react-icons/fc'
 import { useNavigate } from 'react-router-dom'
 import DefaultCircularProgress from './DefaultCircularProgress'
 
@@ -53,12 +54,19 @@ export const ProductCard = ({product}) => {
                     <Flex>
                         <TextBold>{product.price}</TextBold>
                         {/* Clicking icon adds product to cart */}
+                        {product.numInStock === 0
+                        ? 
+                        <OutofStock>
+                            <FcCancel size = {40}/>
+                        </OutofStock>
+                        :
                         <Cart onClick={(e)=>{
                             e.stopPropagation();
                             addToCart(product)}}
                         >
                             <AiOutlineShoppingCart size = {40}/>
                         </Cart>
+                        }
                     </Flex>
                 </ContentInformation>
             </Card>
@@ -133,4 +141,13 @@ const Cart = styled.button`
     &:hover {
         transform: scale(1.2);
     }
+`
+const OutofStock = styled.button`
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: none;
 `

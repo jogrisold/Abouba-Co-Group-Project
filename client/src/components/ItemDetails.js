@@ -72,9 +72,7 @@ const ItemDetails = () => {
             <>
       
             <Wrapper>
-            {/* <div style={{width: '100%'}}> */}
             <LinkHomepage/>
-            {/* </div> */}
                
                 <Content>
                     <Image src={product.imageSrc}/>
@@ -86,10 +84,22 @@ const ItemDetails = () => {
                         </TitleDetails>
                         <CartDetails>
                             <Price>{product.price}</Price>
-                            <UpdateCart onSubmit={(e)=> {handleCartSubmit(e, product)}}>
-                                <QuantitySelect onChange={(e)=> {setQuantity(e.target.value)}} type='number' id='quantity' name='quantity' value={quantity} min='1' max={product.numInStock}/>
-                                <AddCart type="submit">Add to Cart</AddCart>
-                            </UpdateCart>
+                            {product.numInStock === 0
+                            ? 
+                                <UpdateCart>
+                                    <OutofStockBtn disabled={true}>Out of stock</OutofStockBtn>
+                                </UpdateCart>
+                            :
+                                <>
+                                <UpdateCart onSubmit={(e)=> {handleCartSubmit(e, product)}}>
+                                    <QuantitySelect onChange={(e)=> {setQuantity(e.target.value)}} type='number' id='quantity' name='quantity' value={quantity} min='1' max={product.numInStock}/>
+                                    <AddCart type="submit">Add to Cart</AddCart>
+                                </UpdateCart>
+                                    {product.numInStock < 5 &&
+                                        <Hurry>Hurry, only {product.numInStock} left!</Hurry>
+                                    }
+                                </>
+                            }
                         </CartDetails>
                     </FlexCol>
                 </Content>
@@ -160,8 +170,23 @@ const UpdateCart = styled.form`
 display: flex;
 align-items: center;
 height: 30px;
-gap: 8px;`
-
+gap: 8px;
+`;
+const OutofStockBtn = styled.button`
+    background: var(--color-primary);
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+`;
+const Hurry = styled.p`
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 14px;
+    
+`
 const AddCart = styled.button`
     background: var(--color-secondary);
     color: white;
