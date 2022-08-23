@@ -68,14 +68,14 @@ const handleSignIn = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
   let user = null;
-
+  console.log(req.body)
   try {
     await client.connect();
     user = await db.collection("users").findOne({ email: req.body.email });
-
     // Check if the entered email already exists in the users collection
     if (!user) {
       req.body._id = uuidv4();
+      console.log(req.body)
       // Steps to encrypt the password
       // const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -99,8 +99,8 @@ const handleSignIn = async (req, res) => {
         });
       }
     } else {
-      res.status(200).json({
-        status: 200,
+      res.status(404).json({
+        status: 404,
         data: req.body,
         message: "That email already exists",
       });
