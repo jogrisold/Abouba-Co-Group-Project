@@ -1,19 +1,28 @@
+//**************************************************************** */
+// Imports
+//**************************************************************** */
+// React essentials
 import React from "react";
 import { useState, useContext } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+// Local dependencies
 import { UserContext } from "./UserContext";
+// Images for user password visibility button
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
+// Component to be used in /login for existing users
 const Login = () => {
-  const { currentUser, setCurrentUser, isLoggedIn, setIsLoggedIn } =
+  //**************************************************************** */
+  // Constants
+  //**************************************************************** */
+  // Import required states from User Context
+  const {  
+    setCurrentUser, 
+    isLoggedIn, 
+    setIsLoggedIn } =
     useContext(UserContext);
+  // Set some new states for 
   const [userEmail, setUserEmail] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [inputType, setInputType] = useState("password");
@@ -21,9 +30,11 @@ const Login = () => {
   const [popUp, setPopUp] = useState(false);
   let navigate = useNavigate();
 
-  // Create a function to toggle visibility of 
-  // password and confirm password inputs by 
-  // changing the type of input
+  //**************************************************************** */
+  // Functions
+  //**************************************************************** */
+  // Create a function to toggle visibility of password and confirm 
+  // password inputs by changing the type of input
   const togglePassword =()=>{
     if(inputType === "password")
     {
@@ -33,6 +44,7 @@ const Login = () => {
     setInputType("password")
   }
 
+  // Create a function to handle submission of login form
   const handleSubmit = (e) => {
     // Stop the page from automatically reloading on submit
     e.preventDefault();
@@ -59,6 +71,7 @@ const Login = () => {
         if (status >= 400) {
           // If there is an error, display an error message
           setPopUp(true);
+
         } else if(status === 200){
           // If the response is a success, set the user login state 
           // set the current user data for use in cart and profile
@@ -67,15 +80,16 @@ const Login = () => {
           setIsLoggedIn(true);
           setCurrentUser(json.data);
           navigate("/");
-        } else if (error){
-          // Any uncaught json errors
-          window.alert("Error: " + error)
-        }
+        } 
       })
       // Uncaught fetch errors
       .catch((err) => console.log(err));
     };
   
+  //**************************************************************** */
+  // Page render
+  //**************************************************************** */
+  // Nothing new here: it's basically an edited Signup return
   return (
     <>
     {popUp 
@@ -114,6 +128,7 @@ const Login = () => {
             <LoginSection>
               <Label htmlFor="email">Email:</Label>
               <Input
+                autoFocus
                 type="email"
                 placeholder="Email"
                 value={userEmail}
@@ -156,8 +171,10 @@ const Login = () => {
   );
 };
 
+// Export our component
 export default Login;
 
+// This CSS is a repetition of SignUp:
 const PopUp= styled.div`
     display: flex;
     width: 100%;
@@ -179,7 +196,7 @@ const Center= styled.div`
 `;
 const Wrapper = styled.div`
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   width: 450px;
   background-color: var(--color-secondary);
   padding: 20px 50px 20px 50px;

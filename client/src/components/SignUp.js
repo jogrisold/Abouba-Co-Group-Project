@@ -1,35 +1,48 @@
-import React from "react";
-import { useState, useContext } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useNavigate,
-  Link,
-} from "react-router-dom";
-import styled from "styled-components";
+//**************************************************************** */
+// Imports
+//**************************************************************** */
 
+// React essentials
+import { useState, useContext } from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+// Local dependencies
 import { UserContext } from "./UserContext";
+
+// Images for user password visibility button
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
+// Component to be used in /signup for new users
 const SignUp = () => {
-  const { currentUser, setCurrentUser, isLoggedIn, setIsLoggedIn } =
-    useContext(UserContext);
+  //**************************************************************** */
+  // Constants
+  //**************************************************************** */
+  
+  // Bring in basics from UserContext
+  const { 
+    setCurrentUser, 
+    isLoggedIn, 
+    setIsLoggedIn 
+    } =useContext(UserContext);
+  // Set some new states for storage user input from form
+  //******************* MOVE TO UserContext???????????????????????????
   const [validUser, setValidUser] = useState(false);
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [popUp, setPopUp] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [inputType, setInputType] = useState("password");
   const [passwordInput, setPasswordInput] = useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
+  // Some states to create a styled error message
+  const [errorMsg, setErrorMsg] = useState("");
+  const [popUp, setPopUp] = useState(false);
   
-  let navigate = useNavigate();
-
-  // Create a function to toggle visibility of 
-  // password and confirm password inputs by 
-  // changing the type of input
+  //**************************************************************** */
+  // Functions
+  //**************************************************************** */
+  
+  // Create a function to toggle visibility of password and confirm 
+  // password inputs by changing the type of input.
   const togglePassword =()=>{
     if(inputType === "password")
     {
@@ -43,18 +56,16 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     // Stop the page from reloading
     e.preventDefault();
-    // Pass the data from the form into
-    // an object that we can pass to the 
-    // backend
+    // Pass the data from the form into an object that
+    // we can pass to the backend
     const userInformations = {
       given_name: userFirstName,
       family_name: userLastName,
       email: userEmail,
       password: passwordInput,
     };
-    // Define our options for the post method
-    // including stringifying our object to 
-    // post to mongoDB
+    // Define our options for the post method including 
+    // stringifying our object to post to mongoDB
     const options = {
       method: "POST",
       body: JSON.stringify(userInformations),
@@ -64,10 +75,9 @@ const SignUp = () => {
       },
     };
 
-    // Create a function that will post request the user data
-    // if the user passes the input handling below
+    // Create a function that will send a .post request containing the user
+    // data, to be called only if the user passes the input handling below.
     const addUser = (options) => {
-
       fetch("/api/users", options)
         .then((res) => res.json())
         .then((json) => {
@@ -79,11 +89,11 @@ const SignUp = () => {
           } else if(status === 200){
             // If the response is a success, log the new user in and 
             // set the current user data for use in cart /profile,
-            // then navigate to the homepage so the user can resume shopping
+            // This will also refresh the returned elements to show
+            // a success message and a navlink to the main page
             setValidUser(true);
             setIsLoggedIn(true);
             setCurrentUser(json.data);
-            navigate("/");
           }
         })
         // Uncaught fetch errors
@@ -91,27 +101,71 @@ const SignUp = () => {
       // })
     };
 
+    //**************************************************************** */
     // Input Handling
-    // Check if they got the password right
-    if(passwordInput !== confirmPasswordInput ){
+    //**************************************************************** */ 
+    // Create a function using .test that checks
+    // if a string contains only letters
+    const alphaTest = (input) => {
+      const alpha = /^[a-zA-Z]+$/;
+      if (alpha.test(input)){
+        return true; 
+      } else {
+        return false;
+      }
+    }
+    
+    // Create a function that will test if the password contains at least 
+    // one lower case and upper case letter, as well as one number and one 
+    // special character. 
+    const passwordTest = (input) => {
+      const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+      if (strongRegex.test(input)){
+        return true; 
+      } else {
+        return false;
+      }
+    }
+
+    // Most Importantly, check if they got the password right
+    if(passwordInput !== confirmPasswordInput){
+      // Set an error message to display on the page
       setErrorMsg("Passwords do not match");
+      // Activate our styled popup that displays the message
       setPopUp(true);
-    // This one is not perfect as .gov .org etc will not 
-    // be covered but IIWII
-    } else if (userEmail.toString().includes(".com") !== true ) {
+    // Additional email verification (avoids string@string)
+    // and user error @gmailcom
+    } else if (userEmail.toString().includes(".") === false) {
       setErrorMsg("Email is not valid");
       setPopUp(true);
-    // ******************************
-    // MORE ELSE IF CAN BE ADDED HERE  
-    // ******************************
+    // Use our above function to check the names are just letters
+    } else if (alphaTest(userFirstName) === false || alphaTest(userLastName) === false) {
+      setErrorMsg("Names cannot contain special characters or numbers");
+      setPopUp(true);
+    // Require passwords to be at least 8 characters
+    } else if ( passwordInput.length < 8 ) {
+      setErrorMsg("Password must be at least 8 characters long");
+      setPopUp(true);
+    // Require passwords to be at most 20 characters
+    } else if ( passwordInput.length > 20 ) {
+      setErrorMsg("Password must be less than 20 characters long");
+      setPopUp(true);
+    // Run our RegEx test from above
+    } else if ( passwordTest(passwordInput) === false  ) {
+      setErrorMsg("Password must contain at least one upper and lower case letter, at least one number and at least one special character");
+      setPopUp(true);
+    // If all tests pass, then call the POST request function
     } else {
       addUser(options);
     }
     };
 
-
+  //**************************************************************** */
+  // Page Rendering
+  //**************************************************************** */
   return (
     <>
+    {/* Conditional rendering of error message */}
     {popUp 
     ? (<Center>
         <PopUp> 
@@ -126,21 +180,23 @@ const SignUp = () => {
         <Text>
           Please Try Again:
         </Text>
-        <Button 
+        <Submit 
         onClick = {()=>setPopUp(false)}
-        type="ok">Ok</Button>
+        type="ok">Ok</Submit>
         </FlexCol>
         </PopUp>
       </Center>)
     : (<></>)
     }
+    {/* Conditional rendering of Sign Up based on whether the user 
+    is logged in or not */}
       {isLoggedIn ? (
         <Center>
         <Wrapper>
-          <H1>You are logged in!</H1>
+          <H1>Congratulations, signup successful!</H1>
           <GoHome>
-            <HomepageLink 
-            href="/">Go to Homepage</HomepageLink>
+          {/* StyledNavLink to avoid page refresh which loses state */}
+            <HomepageLink to = {"/"}>Start Shopping</HomepageLink>
           </GoHome>
           </Wrapper>
         </Center>
@@ -148,10 +204,11 @@ const SignUp = () => {
         <Center>
           <Wrapper>
             <SignUpForm 
-            onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}>
               <SignUpText>Sign Up</SignUpText>
               <Label for='first-name'>First Name</Label>
                 <Input
+                  autoFocus
                   type="text"
                   placeholder="First Name"
                   value={userFirstName}
@@ -176,6 +233,8 @@ const SignUp = () => {
                 />
                 <Label for='password'>Password</Label>
               <FlexRow>
+                {/* Create an input in which the type can be toggled by the 
+                passwordInput function, called by clicking the button */}
                 <Input 
                   type={inputType} 
                   placeholder="Password"
@@ -184,6 +243,9 @@ const SignUp = () => {
                   required = {true}
                   onChange={(e) => setPasswordInput(e.target.value)} 
                 />
+                {/* Set the type of button to be button to avoid form submission,
+                call the function togglePassword when it is clicked, and add
+                an aria label for vision impaired users */}
                 <TogglePassword 
                   type="button"
                   aria-label="Show password as plain text.
@@ -214,7 +276,7 @@ const SignUp = () => {
                   : <AiOutlineEye size = {25}/>}
                 </TogglePassword>
              </FlexRow>
-              <Button type="submit">Sign Up</Button>
+              <Submit type="submit">Sign Up</Submit>
             </SignUpForm>
           </Wrapper>
         </Center>
@@ -223,8 +285,11 @@ const SignUp = () => {
   );
 };
 
+// Export the component to be used in app router /signup
 export default SignUp;
 
+// Create a styled position absolute div that reqplicates
+// a window.alert but looks better
 const PopUp= styled.div`
     display: flex;
     width: 100%;
@@ -239,41 +304,51 @@ const PopUp= styled.div`
     width: 450px;
     padding: 20px;
 `;
+// Center our form
 const Center= styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
 `;
+// Wrapper styling to contain form
 const Wrapper = styled.div`
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   width: 450px;
   background-color: var(--color-secondary);
   color: white;
   padding: 50px;
   margin: 100px 0 100px 0;
-  h1 {
-    margin: 20px 0 20px;
-  }
 `;
-const HomepageLink = styled.a`
+// Link to homepage in case user navigates back
+// to signup page after successful sign up
+
+const HomepageLink = styled(NavLink)`
   color: white;
   font-size: 26px;
   border: 1px solid white;
   border-radius: 10px;
-  padding: 5px;
+  padding: 20px 0 20px 0;
   text-decoration: none;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+    &:hover {
+        color: var(--color-quarternary);
+    }
 `;
+// Styled div to contain the link
 const GoHome = styled.div`
-    text-align: left;
-    padding: 30px 0 0 0;
+    text-align: center;
     font-size: 36px;
 `;
+// Create our form
 const SignUpForm = styled.form`
 display: flex;
   flex-direction: column;
   gap: 10px;
 `;
+// Styling fo the header
 const SignUpText = styled.div`
   color: white;
   font-size: 38px;
@@ -281,6 +356,7 @@ const SignUpText = styled.div`
   font-family: var(--font-heading);
   margin: 10px 0 30px 0;
 `;
+// Create our label styling
 const Label = styled.label`
     font-size: 1rem;
     color: white;
@@ -288,43 +364,40 @@ const Label = styled.label`
     font-size: 24px;
     width: 100%;
 `;
+// Same for inpiut
 const Input = styled.input`
   font-size: 24px;
   width: 100%;
   height: 40px;
   border-radius: 5px;
   border: none;
-  margin: 0 0 10px 0;
+  margin: 0 10px 10px 0;
 `;
-const Button = styled.button`
+// Button for form submission
+const Submit = styled.button`
   width: 100%;
   height: 45px;
-
-  margin: 0 0 10px;
   border-radius: 5px;
   border: none;
   margin: 10px 0;
 `;
+// Styling for message on form submission
 const H1 = styled.h1`
     text-align: left;
     padding: 0 0 30px 0;
     font-size: 36px;
     color:white;
 `;
+// Styling for message on form submission
 const H2 = styled.h1`
     text-align: center;
     padding: 0 0 40px 0;
     font-size: 36px;
 `;
-const FlexCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 10px 0;
-`;
 const Text = styled.div`
   margin: 20px 0 20px 0 ;
 `;
+// Styling for toggling password visible 
 const TogglePassword = styled.button`
     height: 43px;
     width: 43px;
@@ -332,6 +405,14 @@ const TogglePassword = styled.button`
     background-color: white;
     padding: 4px 0 0 1px;
 `;
+// Standard flex column
+const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0;
+`;
+// Standard flex row
 const FlexRow = styled.div`
     width: 100%;
     display: flex;
