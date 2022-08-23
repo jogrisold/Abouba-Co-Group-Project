@@ -16,6 +16,8 @@ text-decoration: none;
 font-size: 24px;
 color: black;
 font-weight: bold;
+color: var(--color-secondary);
+
 &:hover {
     color: var(--color-gold);
 }
