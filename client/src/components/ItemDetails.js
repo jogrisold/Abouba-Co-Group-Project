@@ -200,6 +200,9 @@ const AddCart = styled.button`
     &:hover{
         background-color: var(--color-gold);
     }
+    &:active{
+        transform: scale(.8);
+    }
 `;
 const Price = styled.p`
     font-size: 22px;
