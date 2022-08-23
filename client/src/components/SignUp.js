@@ -26,6 +26,7 @@ const SignUp = () => {
   const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
   
   let navigate = useNavigate();
+  
 
   // Create a function to toggle visibility of 
   // password and confirm password inputs by 
@@ -38,6 +39,7 @@ const SignUp = () => {
     }
     setInputType("password")
   }
+
 
   //Create a function to handle form submission
   const handleSubmit = (e) => {
@@ -92,15 +94,33 @@ const SignUp = () => {
         .catch((err) => console.log(err));
     };
 
+
     // Input Handling
+
+    // Create a function to test input characters
+    const inputTest = (input) => {
+      const accepted = /^[a-zA-Z]+$/;
+      if (accepted.test(input)){
+        return true; 
+      } else {
+        return false;
+      }
+    }
+
     // Check if they got the password right
-    if(passwordInput !== confirmPasswordInput ){
+    if(passwordInput !== confirmPasswordInput){
       setErrorMsg("Passwords do not match");
       setPopUp(true);
     // This one is not perfect as .gov .org etc will not 
     // be covered but IIWII
     } else if (userEmail.toString().includes(".com") !== true ) {
       setErrorMsg("Email is not valid");
+      setPopUp(true);
+    } else if (inputTest(userFirstName) !== true || inputTest(userLastName) !== true ) {
+      setErrorMsg("Names can only contain letters");
+      setPopUp(true);
+    } else if ( passwordInput.length < 8 ) {
+      setErrorMsg("Password must be at least 8 characters long");
       setPopUp(true);
     // ******************************
     // MORE ELSE IF CAN BE ADDED HERE  
