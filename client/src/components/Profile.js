@@ -14,75 +14,81 @@ const Profile = () => {
     const {currentUser} = useContext(UserContext);
     
     const [userData, setUserData] = useState(null);
-    console.log(currentUser._id)
     useEffect(()=>{
+        if (currentUser) {
             fetch(`api/users/${currentUser._id}`)
             .then(res=>res.json())
             .then((data)=>{
                 console.log(data)
                 setUserData(data.data)         
             }).then(console.log(userData))
+        }
+    }, [currentUser])
 
-    }, [])
-
-    if (currentUser && userData) {
+    // if (currentUser && userData) {
         return (
             <Center>
                 <LinkHomepage/>
                 <Wrapper>
-                    <H1>Profile</H1>
-                    <FlexRow>
-                        <Text>{currentUser.given_name}</Text>
-                        <Surname>{currentUser.family_name}</Surname>
-                    </FlexRow>
-                    <Email>{currentUser.email}</Email>
-                    <Line></Line>            
-                    <PurchaseHistory>
-                        <H1>Purchase History</H1>
-                        {/* To do: map user's purchased items */}
-                        {userData.purchaseHistory.length > 0 ?
-                        userData.purchaseHistory.map(element =>{
-                            return (
-                                <FlexCol>
-                                <OrderNumber>Order #: {element._id}</OrderNumber>
-                                <div>Purchase date: {Date(element.datePurchased)}</div>
-                                {element.products.map(e=>{
-                                    return (
-                                        <>
-                                        <div>{e.name}</div>
-                                        <div>{e.quantity} x {e.price}</div>
+                    {currentUser ?
+                    <>
+                                        <H1>Profile</H1>
+                                        <FlexRow>
+                                            <Text>{currentUser.given_name}</Text>
+                                            <Surname>{currentUser.family_name}</Surname>
+                                        </FlexRow>
+                                        <Email>{currentUser.email}</Email>
+                                        <Line></Line>            
+                                        <PurchaseHistory>
+                                            <H1>Purchase History</H1>
+                                            {/* To do: map user's purchased items */}
+                                            {userData && userData.purchaseHistory.length > 0 ?
+                                            userData.purchaseHistory.map(element =>{
+                                                return (
+                                                    <FlexCol>
+                                                    <OrderNumber>Order #: {element._id}</OrderNumber>
+                                                    <div>Purchase date: {Date(element.datePurchased)}</div>
+                                                    {element.products.map(e=>{
+                                                        return (
+                                                            <>
+                                                            <div>{e.name}</div>
+                                                            <div>{e.quantity} x {e.price}</div>
+                                                            </>
+                                                        )
+                                                    })}
+                                                    <div>Total: ${parseInt(element.purchaseTotal.slice(1)).toFixed(2)}</div>
+                                                    <Line/>
+                                                    </FlexCol>
+                                                )
+                                            })
+                                             :
+                                             <>
+                                             <p>You have no purchases yet.</p>
+                                             </>
+                                            }
+                                        </PurchaseHistory>
                                         </>
-                                    )
-                                })}
-                                <div>Total: ${parseInt(element.purchaseTotal.slice(1)).toFixed(2)}</div>
-                                <Line/>
-                                </FlexCol>
-                            )
-                        })
-                         :
-                         <>
-                         <p>You have no purchases yet.</p>
-                         </>
-                        }
-                    </PurchaseHistory>
+                    :
+                    <p>Please <Link to ="/login" style={{color: "var(--color-secondary)"}}> login</Link> to continue</p>
+                    }
                 </Wrapper>
             </Center>
     
         )
-    } else {
-        return (
-            <Center>
-                <LinkHomepage/>
-                <Wrapper>
-            <H1 style={{padding: "28px 0 0 0"}}>Profile</H1>
-            <Line/>
-            <FlexContainer>
-                <p>Please <Link to ="/login" style={{color: "var(--color-secondary)"}}> login</Link> to continue</p>
-            </FlexContainer>
-            </Wrapper>
-            </Center>
-        )
-    }
+    // } else {
+    //     return (
+    //         <Center>
+    //             <LinkHomepage/>
+    //             <Wrapper>
+    //         <H1 style={{padding: "28px 0 0 0"}}>Profile</H1>
+    //         <Line/>
+    //         <FlexContainer>
+
+    //         </FlexContainer>
+    //         </Wrapper>
+    //         </Center>
+    //     )
+    // }
 
 }
 
