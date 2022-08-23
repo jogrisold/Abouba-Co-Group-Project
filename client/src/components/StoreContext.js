@@ -37,6 +37,11 @@ const reducer = (state, action) =>{
                     ...state.cart
                 }
             }
+        } case 'clear-cart' : {
+            return {
+                ...state,
+                cart : {}
+            }
         }
         default:
         throw new Error('ERROR')
