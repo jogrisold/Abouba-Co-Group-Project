@@ -1,27 +1,33 @@
+// Import our favorite create Global Style, thaqt
+// will allow us to pass all of the following CSS
+// as one element that can be accessed in App
 import { createGlobalStyle } from "styled-components";
 
+// It's a constant!
 const GlobalStyles = createGlobalStyle`
+
+    // Color scheme and fonts defined as variables 
+    // accessible in the root so we can call on them
+    // in all of our styled components
     :root {
-        --color-primary: #C6C9C0;
+        --color-primary: #BFBA9F; // #C6C9C0;
         --color-secondary: #474E6A;
         --color-tertiary: #5D5B67 ;
-        --color-quarternary: #6A6A5F;
+        --color-quarternary: #BF9663; // #6A6A5F;
         --color-gold:#BF9663;
         --font-heading: 'Noto Sans', Arial, Helvetica, sans-serif;
         --font-body: 'Helvetica', Arial, Helvetica, sans-serif;
         --padding-page: 24px;
     }
 
-    /* #BF9663 */
-    /* http://meyerweb.com/eric/tools/css/reset/
-        v2.0 | 20110126
-        License: none (public domain)
-    */
+    // Set the page to fill the screen
     html, body {
     max-width: 100vw;
     height: 100vh;
     }
 
+    // Remove default margins, paddings and borders
+    // to reduce repetitive code
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -64,6 +70,8 @@ const GlobalStyles = createGlobalStyle`
         content: none;
     }
 
+    // Set the color/fonts for our headings,
+    // labels and buttons.
     h1,
     h2,
     h3,
@@ -71,10 +79,9 @@ const GlobalStyles = createGlobalStyle`
     button {
     color: var(--color-secondary);
     font-family: var(--font-heading);
-    font-size: 20px;
-    text-align: center;
     }
 
+    // Set our font for the body elements
     p,
     a,
     li,
@@ -83,4 +90,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: var(--font-body);
     }`;
 
+    // Export that baby for use in App!
+    // Bellissimo!
     export default GlobalStyles;
