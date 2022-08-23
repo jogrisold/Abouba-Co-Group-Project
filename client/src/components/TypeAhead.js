@@ -16,6 +16,7 @@ const TypeAhead = () => {
 
     return (
         <>
+        <FlexCol>
             <SearchDiv>
                 <SearchBar 
                     type="text" 
@@ -50,6 +51,7 @@ const TypeAhead = () => {
                 }
             </ProductList> 
         }
+        </FlexCol>
     </>
     );
 };
@@ -57,10 +59,8 @@ const TypeAhead = () => {
 export default TypeAhead;
 
 const SearchDiv = styled.div`
-    margin: 50px;
-    position: absolute;
-    top: 180px;
-    left: 250px;
+    display: flex;
+    flex-direction: row;
 `;
 const Category = styled.span`
     font-style: italic;
@@ -85,9 +85,8 @@ const ClearBtn = styled.button`
     background-color: var(--color-quarternary);
     border: none;
     border-radius: 5px;
-    padding: 6px 10px;
     font-size: 18px;
-    margin-left: 10px;
+    margin-left: 30px;
     &:focus-visible {
         outline: 4px lightblue solid ;
     }
@@ -96,6 +95,7 @@ const ClearBtn = styled.button`
     }
 `;
 const ProductList = styled.ul`
+    z-index: 1;
     border-radius: 5px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 10px;
@@ -103,11 +103,12 @@ const ProductList = styled.ul`
     margin-top: 5px;
     background-color: white;
     font-size: 18px;
-    position: absolute;
-    top: 29%;
-    left: 300px;
+
+    /* top: 15%;
+    left: 370px; */
 `;
 const ProductListItem = styled.li`
+    z-index: 1;
     padding: 10px;
     font-size: 18px;
     &:hover {
@@ -117,4 +118,10 @@ const ProductListItem = styled.li`
 `;
 const Prediction = styled.span`
     font-weight: bold;
+`;
+const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0;
 `;

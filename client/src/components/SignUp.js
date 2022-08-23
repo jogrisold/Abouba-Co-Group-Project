@@ -18,6 +18,7 @@ const SignUp = () => {
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [userConfirmPassword, setUserConfirmPassword] = useState("");
   const [popUp, setPopUp] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
@@ -48,29 +49,34 @@ const SignUp = () => {
     console.log(options.body)
     // Send a POST request to the server with our
     // above options
-    fetch("/api/users", options)
-      .then((res) => res.json())
-      .then((json) => {
-        const {status, message, error} = json;
-        if (status >= 400) {
-          // If there is an error, display a styled error message
-          setErrorMsg(message);
-          setPopUp(true);
-        } else if(status === 200){
-          // If the response is a success, log the new user in and 
-          // set the current user data for use in cart /profile,
-          // then navigate to the homepage so the user can resume shopping
-          setValidUser(true);
-          setIsLoggedIn(true);
-          setCurrentUser(json.data);
-          navigate("/");
-        } else if (error){
-          // Any uncaught json errors
-          window.alert("Error: " + error)
-        }
-      })
-      // Uncaught fetch errors
-      .catch((err) => console.log(err));
+    if(userPassword === userConfirmPassword){
+      fetch("/api/users", options)
+        .then((res) => res.json())
+        .then((json) => {
+          const {status, message, error} = json;
+          if (status >= 400) {
+            // If there is an error, display a styled error message
+            setErrorMsg(message);
+            setPopUp(true);
+          } else if(status === 200){
+            // If the response is a success, log the new user in and 
+            // set the current user data for use in cart /profile,
+            // then navigate to the homepage so the user can resume shopping
+            setValidUser(true);
+            setIsLoggedIn(true);
+            setCurrentUser(json.data);
+            navigate("/");
+          } else if (error){
+            // Any uncaught json errors
+            window.alert("Error: " + error)
+          }
+        })
+        // Uncaught fetch errors
+        .catch((err) => console.log(err));
+    } else {
+      setErrorMsg("Passwords do not match");
+      setPopUp(true);
+    }
     };
 
   return (
@@ -144,6 +150,14 @@ const SignUp = () => {
                   value={userPassword}
                   required={true}
                   onChange={(e) => setUserPassword(e.target.value)}
+                />
+                <Label for='confirm-password'>Confirm Password</Label>
+                <Input
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={userConfirmPassword}
+                  required={true}
+                  onChange={(e) => setUserConfirmPassword(e.target.value)}
                 />
                 <Button type="submit">Sign Up</Button>
             </SignUpForm>
