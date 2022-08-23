@@ -80,6 +80,7 @@ export const ProductCard = ({product}) => {
 
 
 const Card = styled.div`
+    z-index:0
     border: 1px solid rgba(120, 120, 120, 0.3);
     width: 300px;
     display: flex;

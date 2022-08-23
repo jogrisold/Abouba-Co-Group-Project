@@ -2,13 +2,15 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { StoreContext } from "./StoreContext";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const ShippingBilling = () => {
-
     const [purchaseError, setPurchaseError] = useState(null);
-    const {cart} = useContext(StoreContext);
+    const {cart, dispatch} = useContext(StoreContext);
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
+        dispatch({type: 'clear-cart'})
         e.preventDefault();
         if (cart) {
             const form = new FormData(document.forms.shipDetailsForm)
@@ -22,7 +24,6 @@ const ShippingBilling = () => {
                     quantity: element.quantity
                 }
             })
-            console.log(cartArray)
             const formObj = {
                     email: form.get('email'),
                     shippingInformation : 
@@ -33,7 +34,8 @@ const ShippingBilling = () => {
                     province: form.get('province'),
                     country: form.get('country'),
                     },
-                    products: cartArray
+                    products: cartArray,
+                    purchaseDate: Date()
             }
             fetch('/api/users/purchase', {
                 method: 'PATCH',
@@ -46,10 +48,12 @@ const ShippingBilling = () => {
                 }
                 return res.json()
             }).then((data)=>{
-                console.log(data)
-                setPurchaseError(null)
+                console.log(data);
+                setPurchaseError(null);
+                navigate("confirmation");
+
             }).catch((err)=> {
-                setPurchaseError(err.message)
+                setPurchaseError(err.message, {replace: true})
             })
         } else {
             return

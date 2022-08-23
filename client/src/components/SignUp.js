@@ -67,6 +67,7 @@ const SignUp = () => {
     // Create a function that will post request the user data
     // if the user passes the input handling below
     const addUser = (options) => {
+
       fetch("/api/users", options)
         .then((res) => res.json())
         .then((json) => {
@@ -90,6 +91,10 @@ const SignUp = () => {
         })
         // Uncaught fetch errors
         .catch((err) => console.log(err));
+    } else {
+      setErrorMsg("Passwords do not match");
+      setPopUp(true);
+    }
     };
 
     // Input Handling
@@ -244,7 +249,6 @@ const Center= styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-
 `;
 const Wrapper = styled.div`
   border: none;
@@ -327,7 +331,6 @@ const FlexCol = styled.div`
 const Text = styled.div`
   margin: 20px 0 20px 0 ;
 `;
-
 const TogglePassword = styled.button`
     height: 43px;
     width: 43px;

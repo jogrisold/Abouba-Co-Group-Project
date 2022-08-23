@@ -3,7 +3,6 @@ import { useContext } from "react"
 import { ProductCard } from "./ProductCard"
 import { Carousel } from "./Carousel"
 import Sidebar from "./SideBar";
-import Typeahead from "./TypeAhead";
 import { StoreContext } from './StoreContext';
 import DefaultCircularProgress from "./DefaultCircularProgress";
 
@@ -21,7 +20,7 @@ const Homepage = () =>{
                 products &&
                     <FlexColumn>
                         <Carousel />
-                        <Typeahead/>
+
                         <Store>
                             {/* Map through products to render cards */}
                             {
