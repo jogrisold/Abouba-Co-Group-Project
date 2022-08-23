@@ -19,7 +19,7 @@ import { StoreContext } from "./StoreContext";
 const Header = () => {
     // Use Context to bring in the needed states for the code below
     const {isLoggedIn, setIsLoggedIn, setCurrentUser} = useContext(UserContext);
-    const {cart} = useContext(StoreContext)
+    const {cart, dispatch} = useContext(StoreContext)
     // Define a navigator to allow us to use Navigate to move
     // the user to the desired page without them clicking on 
     // any links
@@ -32,9 +32,7 @@ const Header = () => {
     const handleClickLogOut = () => {
         setCurrentUser(null);
         setIsLoggedIn(false);
-        // ******************************
-        // TO DO: set cart to empty again
-        // ******************************
+        dispatch({type: 'clear-cart'})
     }
 
     return(

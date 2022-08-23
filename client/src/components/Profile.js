@@ -1,6 +1,5 @@
 import styled from "styled-components"
-import { useEffect } from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { StoreContext } from "./StoreContext";
 import { BsSuitHeart } from "react-icons/bs";
 import { BsCartDash } from "react-icons/bs";
@@ -12,69 +11,84 @@ import LinkHomepage from "./LinkHomepage";
 const Profile = () => {
 
     const {products} = useContext(StoreContext);
-    const {currentUser} = useContext(UserContext)
+    const {currentUser} = useContext(UserContext);
+    
+    const [userData, setUserData] = useState(null);
+    useEffect(()=>{
+        if (currentUser) {
+            fetch(`api/users/${currentUser._id}`)
+            .then(res=>res.json())
+            .then((data)=>{
+                console.log(data)
+                setUserData(data.data)         
+            }).then(console.log(userData))
+        }
+    }, [currentUser])
 
-    if (currentUser) {
+    // if (currentUser && userData) {
         return (
             <Center>
                 <LinkHomepage/>
                 <Wrapper>
-                    <ProfileImg src = "https://geekireland.com/wp-content/uploads/2018/11/maxresdefault-2-1024x576.jpg"/>
-                    <H1>Profile</H1>
-                    <FlexRow>
-                        <Text>{currentUser.given_name}</Text>
-                        <Surname>{currentUser.family_name}</Surname>
-                    </FlexRow>
-                    <Email>{currentUser.email}</Email>
-                    <Line></Line>            
-                    <PurchaseHistory>
-                        <H1>Purchase History</H1>
-                        {/* To do: map user's purchased items */}
-                        {currentUser.purchaseHistory.length > 0 ?
-                        currentUser.purchaseHistory.map(element =>{
-                            return (
-                                <>
-                                <OrderNumber>Order #: -confirmation-id-</OrderNumber>
-                                <FlexRow>
-                                    <ProductName>Star Platinum Super Cool Stand</ProductName>
-                                    <Price>$1,000</Price>
-                                    <Quantity>1</Quantity>
-                                </FlexRow>
-                                <OrderNumber>Order #: -confirmation-id-</OrderNumber>
-                                <FlexRow>
-                                    <ProductName>Tacky Hat</ProductName>
-                                    <Price>$200.56</Price>
-                                    <Quantity>1</Quantity>
-                                </FlexRow>
-                                <PurchaseTotal>Purchase total: $1,200.56</PurchaseTotal>
-                                <Line></Line>  
-                                </>
-                            )
-                        })
-                         :
-                         <>
-                         <p>You have no purchases yet.</p>
-                         </>
-                        }
-                    </PurchaseHistory>
+                    {currentUser ?
+                    <>
+                                        <H1>Profile</H1>
+                                        <FlexRow>
+                                            <Text>{currentUser.given_name}</Text>
+                                            <Surname>{currentUser.family_name}</Surname>
+                                        </FlexRow>
+                                        <Email>{currentUser.email}</Email>
+                                        <Line></Line>            
+                                        <PurchaseHistory>
+                                            <H1>Purchase History</H1>
+                                            {/* To do: map user's purchased items */}
+                                            {userData && userData.purchaseHistory.length > 0 ?
+                                            userData.purchaseHistory.map(element =>{
+                                                return (
+                                                    <FlexCol>
+                                                    <OrderNumber>Order #: {element._id}</OrderNumber>
+                                                    <div>Purchase date: {Date(element.datePurchased)}</div>
+                                                    {element.products.map(e=>{
+                                                        return (
+                                                            <>
+                                                            <div>{e.name}</div>
+                                                            <div>{e.quantity} x {e.price}</div>
+                                                            </>
+                                                        )
+                                                    })}
+                                                    <div>Total: ${parseInt(element.purchaseTotal.slice(1)).toFixed(2)}</div>
+                                                    <Line/>
+                                                    </FlexCol>
+                                                )
+                                            })
+                                             :
+                                             <>
+                                             <p>You have no purchases yet.</p>
+                                             </>
+                                            }
+                                        </PurchaseHistory>
+                                        </>
+                    :
+                    <p>Please <Link to ="/login" style={{color: "var(--color-secondary)"}}> login</Link> to continue</p>
+                    }
                 </Wrapper>
             </Center>
     
         )
-    } else {
-        return (
-            <Center>
-                <LinkHomepage/>
-                <Wrapper>
-            <H1 style={{padding: "28px 0 0 0"}}>Profile</H1>
-            <Line/>
-            <FlexContainer>
-                <p>Please <Link to ="/login" style={{color: "var(--color-secondary)"}}> login</Link> to continue</p>
-            </FlexContainer>
-            </Wrapper>
-            </Center>
-        )
-    }
+    // } else {
+    //     return (
+    //         <Center>
+    //             <LinkHomepage/>
+    //             <Wrapper>
+    //         <H1 style={{padding: "28px 0 0 0"}}>Profile</H1>
+    //         <Line/>
+    //         <FlexContainer>
+
+    //         </FlexContainer>
+    //         </Wrapper>
+    //         </Center>
+    //     )
+    // }
 
 }
 
@@ -91,13 +105,12 @@ const Wrapper= styled.div`
     margin: 50px;
     flex-direction: column;
     align-items: left;
+    margin-top: 100px;
 `;
 const FlexCol = styled.div`
 display: flex;
 flex-direction: column;
-align-items: flex-start;
-margin: 10px 0;
-width: 30%;
+gap: 8px;
 `;
 const FlexRow = styled.div`
     width: 100%;
