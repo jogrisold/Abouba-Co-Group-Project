@@ -4,7 +4,7 @@ import { UserContext} from "./UserContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
-import { BsTrash } from "react-icons/bs";
+import { BsTrash, BsCartX } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import LinkHomepage from "./LinkHomepage";
 import ShippingBilling from "./ShippingBilling";
@@ -30,8 +30,7 @@ const CartPage = () => {
             <Wrapper>
                 <Header>Cart</Header>
                 <SubHeader>Items</SubHeader>
-                {cart &&
-                <>
+                {Object.values(cart).length < 0 ?
                     <ul>
                         {Object.values(cart).map(element => {
                             // add product price to total price, using parseFloat for cents and slicing the dollar sign
@@ -53,8 +52,13 @@ const CartPage = () => {
                             )
                         })}
                         <Total>Total: ${totalPrice.toFixed(2)}</Total>
-                    </ul>
-                </>
+                    </ul>   
+                    :
+                    <FlexContainer>
+                        <EmptyCart/>
+                        <h3>Your Cart is Empty!</h3>
+                        <h3>Please return to <Link to='/' style={{color: 'inherit'}}>homepage</Link> to add to you cart</h3>
+                    </FlexContainer>
                 }
                     {Object.values(cart).length > 0 &&
                         <div>
@@ -172,5 +176,18 @@ transition: ease-in-out 50ms;
 &:hover {
     transform: scale(1.1)
 }`
+
+const FlexContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 30vh;
+width: 100%;
+gap: 30px;
+`
+
+const EmptyCart = styled(BsCartX)`
+font-size: 60px;`
 
 export default CartPage;
