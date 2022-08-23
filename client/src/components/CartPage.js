@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { StoreContext } from "./StoreContext";
+import { UserContext} from "./UserContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {MdOutlineArrowBackIosNew} from 'react-icons/md'
 import { BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -9,6 +11,8 @@ import ShippingBilling from "./ShippingBilling";
 
 const CartPage = () => {
     const { cart, products, companies, dispatch } = useContext(StoreContext);
+    const { isLoggedIn } = useContext(UserContext);
+    const navigate = useNavigate();
     
     const handleClickDelete = (productId) => {
         dispatch({type: 'delete-from-cart', id: productId})
@@ -27,30 +31,41 @@ const CartPage = () => {
                 <Header>Cart</Header>
                 <SubHeader>Items</SubHeader>
                 {cart &&
+                <>
                     <ul>
-                    {Object.values(cart).map(element => {
-                        // add product price to total price, using parseFloat for cents and slicing the dollar sign
-                        totalPrice += parseFloat(element.price.slice(1) * element.quantity)
-                        return (
-                            <ItemRow>
-                                <ProductName to={`/product/${element._id}`}>{element.name}</ProductName>
-                                <Pricing>
-                                    <Image src={element.imageSrc}/>
-                                    <p>{element.price} x</p>
-                                    {/* <QuantityIndicator>x{element.quantity}</QuantityIndicator> */}
-                                <AdjustAmount>
-                                    <QuantitySelect type='number' id='quantity' name='quantity' defaultValue={element.quantity} min='1' max={element.numInStock} 
-                                    onChange={(e)=>{handleUpdateCart(e, element)}}/>
-                                    <DeleteButton onClick={()=>{handleClickDelete(element._id)}}><BsTrash/></DeleteButton>
-                                </AdjustAmount>
-                                <p>${(element.price.slice(1) * element.quantity).toFixed(2)}</p>
-                                </Pricing>
-                            </ItemRow>
-                        )
-                    })}
-                    <Total>Total: ${totalPrice.toFixed(2)}</Total>
-                    <ShippingBilling/>
-                    </ul>}
+                        {Object.values(cart).map(element => {
+                            // add product price to total price, using parseFloat for cents and slicing the dollar sign
+                            totalPrice += parseFloat(element.price.slice(1) * element.quantity)
+                            return (
+                                <ItemRow>
+                                    <ProductName to={`/product/${element._id}`}>{element.name}</ProductName>
+                                    <Pricing>
+                                        <Image src={element.imageSrc}/>
+                                        <p>{element.price} x</p>
+                                    <AdjustAmount>
+                                        <QuantitySelect type='number' id='quantity' name='quantity' defaultValue={element.quantity} min='1' max={element.numInStock} 
+                                        onChange={(e)=>{handleUpdateCart(e, element)}}/>
+                                        <DeleteButton onClick={()=>{handleClickDelete(element._id)}}><BsTrash/></DeleteButton>
+                                    </AdjustAmount>
+                                    <p>${(element.price.slice(1) * element.quantity).toFixed(2)}</p>
+                                    </Pricing>
+                                </ItemRow>
+                            )
+                        })}
+                        <Total>Total: ${totalPrice.toFixed(2)}</Total>
+                    </ul>
+                </>
+                }
+                    {Object.values(cart).length > 0 &&
+                        <div>
+                            {isLoggedIn
+                            ?
+                                <ShippingBilling/>
+                            : 
+                                <Checkout>To continue your checkout, please <LogIn to={"/login"}>log in</LogIn>.</Checkout>
+                            }
+                        </div>
+                    }
             </Wrapper>
         </Center>
         </>
@@ -66,9 +81,22 @@ const ItemRow = styled.li`
 const Image = styled.img`
     width: 50px;
 `
-// const QuantityIndicator = styled.p`
-//     padding-left: 15px;
-// `
+const Checkout = styled.p`
+    height: 40px;
+    padding: 12px 20px 10px;
+    border-radius: 5px;
+    width: fit-content;
+    background-color: lightblue;
+`
+const LogIn = styled(Link)`
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    &:hover {
+        color: var(--color-tertiary)
+    }
+`
 const Pricing = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -90,6 +118,7 @@ margin-right: 10px;
 const Center= styled.div`
     display: flex;
     width: 100%;
+    height: 100vh;
     justify-content: center;
 `;
 const Wrapper= styled.div`
