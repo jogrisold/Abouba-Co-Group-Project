@@ -38,28 +38,29 @@ const handleUsersById = async (req, res) => {
 };
 
 const handleUserPurchase = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const db = client.db("groupProject");
+//   const client = new MongoClient(MONGO_URI, options);
+//   const db = client.db("groupProject");
 
   //   let newValues = {$push:{"$purchaseHistory"}}
   //   {$push: {"purchaseHistory"purchaseHistory.$[].products":req.body.products}}
   try {
-    await client.connect();
+    console.log(req.body)
+    // await client.connect();
 
-    let query = { email: req.body.email };
+    // let query = { email: req.body.email };
 
-    let newValues = { $set: { purchaseHistory: req.body.purchase } };
+    // let newValues = { $set: { purchaseHistory: req.body.purchase } };
 
     //  const user = await db.collection("users").updateOne(query, newValues);
     //  loops in the purchase products array and for each productId
     //  then updates the products collection by updating the numInStock
     //  using the purchased quantity
 
-    query = {};
+    // query = {};
 
-    data = await req.body.purchase.products.map((item) => {
-      return { productId: item.productId, NumInStock: item.quantity };
-    });
+    // data = await req.body.purchase.products.map((item) => {
+    //   return { productId: item.productId, NumInStock: item.quantity };
+    // });
     //  Using the data array to build query and newValues to update
     //  user = await db.collection("products").updateOne(query, newValues);
   } catch (err) {}

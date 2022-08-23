@@ -1,28 +1,63 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { StoreContext } from "./StoreContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 
 const ShippingBilling = () => {
 
+    const [purchaseError, setPurchaseError] = useState(null);
     const {cart} = useContext(StoreContext);
-    const handleSubmit = (e, action) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const form = new FormData(document.forms.shipDetailsForm)
-        const formObj = {
-            firstName: form.get('fname'),
-            lastName: form.get('lname'),
-            email: form.get('email'),
-            city: form.get('city'),
-            province: form.get('province'),
-            country: form.get('country')
+        if (cart) {
+            const form = new FormData(document.forms.shipDetailsForm)
+            const cartArray = Object.values(cart).map(element=>{
+                return {
+                    _id: element._id,
+                    name: element.name,
+                    price: element.price,
+                    body_location: element.body_location,
+                    category: element.category,
+                    quantity: element.quantity
+                }
+            })
+            console.log(cartArray)
+            const formObj = {
+                    email: form.get('email'),
+                    shippingInformation : 
+                    {
+                    firstName: form.get('fname'),
+                    lastName: form.get('lname'),
+                    city: form.get('city'),
+                    province: form.get('province'),
+                    country: form.get('country'),
+                    },
+                    products: cartArray
+            }
+            fetch('/api/users/purchase', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, body: JSON.stringify(formObj)
+            }).then((res)=>{
+                if (res.status >= 400) {
+                    throw new Error('There was an error purchasing your items, please try again')
+                }
+                return res.json()
+            }).then((data)=>{
+                console.log(data)
+                setPurchaseError(null)
+            }).catch((err)=> {
+                setPurchaseError(err.message)
+            })
+        } else {
+            return
         }
-        action ='/test'
     }
     return (<>
         <SubHeader>Shipping details</SubHeader>
-            <ShippingForm action='http://localhost:4000/test' method="post" id="shipDetailsForm">
+            <ShippingForm onSubmit={(e)=>{handleSubmit(e)}} id="shipDetailsForm">
                 <FlexRow>
                     <FlexCol>
                         <Label for='fname'>First name</Label>

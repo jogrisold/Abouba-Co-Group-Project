@@ -59,7 +59,7 @@ express()
   .get("/api/users/:id", handleUsersById)
   // Load the purchase in the user purchase history
   // Than update "products" collecion numInStock
-  .patch("/api/users/:id", handleUserPurchase)
+  .patch("/api/users/purchase", handleUserPurchase)
 
   // Get user login informations
   .post("/api/login", handleLogIn)
