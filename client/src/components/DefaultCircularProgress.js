@@ -23,4 +23,5 @@ const Center = styled.div`
     align-items: center;
     align-self: center;
     color: var(--color-primary);
+    padding: 49vh;
 `
