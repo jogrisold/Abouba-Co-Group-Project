@@ -30,7 +30,7 @@ const CartPage = () => {
             <Wrapper>
                 <Header>Cart</Header>
                 <SubHeader>Items</SubHeader>
-                {Object.values(cart).length < 0 ?
+                {Object.values(cart).length > 0 ?
                     <ul>
                         {Object.values(cart).map(element => {
                             // add product price to total price, using parseFloat for cents and slicing the dollar sign

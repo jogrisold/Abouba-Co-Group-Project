@@ -49,11 +49,10 @@ const ShippingBilling = () => {
                 return res.json()
             }).then((data)=>{
                 console.log(data);
-                setPurchaseError(null);
-                navigate("confirmation");
+                navigate("/confirmation");
 
             }).catch((err)=> {
-                setPurchaseError(err.message, {replace: true})
+                console.log(err.message)
             })
         } else {
             return

@@ -63,12 +63,12 @@ const handleUserPurchase = async (req, res) => {
     });
 
     let document = {
-      _id: genId,
-      confirmation: genId,
-      purchaseTotal: "$" + purchaseTotal,
-      datePurchased: today,
-      products: [...req.body.products],
-    };
+        _id: genId,
+        confirmation: genId,
+        purchaseTotal: "$" + purchaseTotal,
+        datePurchased: today,
+        products: [...req.body.products],
+      };
 
     let query = { email: req.body.email };
     let newValues = { $push: { purchaseHistory: document } };
@@ -76,6 +76,10 @@ const handleUserPurchase = async (req, res) => {
 
     // Updates the user purchaseHistory array by adding the purchased products
     update = await db.collection("users").updateOne(query, newValues);
+    const userInfo = await db.collection("users").findOne({email: req.body.email});
+    console.log(userInfo)
+
+
 
     if (update) {
       //  loops in the purchase products array and for each productId
