@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 
 const ShippingBilling = () => {
-
     const [purchaseError, setPurchaseError] = useState(null);
-    const {cart} = useContext(StoreContext);
+    const {cart, dispatch} = useContext(StoreContext);
     const navigate = useNavigate();
     const handleSubmit = (e) => {
+        dispatch({type: 'clear-cart'})
         e.preventDefault();
         if (cart) {
             const form = new FormData(document.forms.shipDetailsForm)
