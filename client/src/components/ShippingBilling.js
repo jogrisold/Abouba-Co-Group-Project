@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "./StoreContext";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 
 const ShippingBilling = () => {
     const [purchaseError, setPurchaseError] = useState(null);
-    const {cart, dispatch} = useContext(StoreContext);
+    const {userInfo, setUserInfo} = useContext(UserContext)
+    const {cart, dispatch} = useContext(StoreContext)
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         dispatch({type: 'clear-cart'})
@@ -50,6 +52,7 @@ const ShippingBilling = () => {
             }).then((data)=>{
                 console.log(data);
                 navigate("/confirmation");
+                setUserInfo(data.data.userInfo)
 
             }).catch((err)=> {
                 console.log(err.message)
