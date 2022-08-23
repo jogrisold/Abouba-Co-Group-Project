@@ -15,10 +15,9 @@ const { v4: uuidv4 } = require("uuid");
 const handleUsersById = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
-  const id = parseInt(req.params.id);
   try {
     await client.connect();
-    const user = await db.collection("users").findOne({ _id: id });
+    const user = await db.collection("users").findOne({ _id: req.params.id });
     if (user) {
       res.status(200).json({
         status: 200,
@@ -76,8 +75,6 @@ const handleUserPurchase = async (req, res) => {
 
     // Updates the user purchaseHistory array by adding the purchased products
     update = await db.collection("users").updateOne(query, newValues);
-    const userInfo = await db.collection("users").findOne({email: req.body.email});
-    console.log(userInfo)
 
 
 

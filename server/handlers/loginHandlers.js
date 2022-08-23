@@ -16,11 +16,7 @@ const bcrypt = require("bcrypt");
 const handleLogIn = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
-  const _option = {
-    projection: {
-      _id: 0,
-    },
-  };
+
   // let body = req.body;
   let user = null;
 
@@ -28,7 +24,7 @@ const handleLogIn = async (req, res) => {
     await client.connect();
     user = await db
       .collection("users")
-      .findOne({ email: req.body.email }, _option);
+      .findOne({ email: req.body.email });
 
     if (user) {
       // Check if the database encrypted password matches the login
