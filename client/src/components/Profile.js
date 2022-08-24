@@ -33,9 +33,8 @@ const Profile = () => {
             fetch(`api/users/${currentUser._id}`)
             .then(res=>res.json())
             .then((data)=>{
-                console.log(data)
                 setUserData(data.data)         
-            }).then(console.log(userData))
+            })
         }
     }, [currentUser])
 
