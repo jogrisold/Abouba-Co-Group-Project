@@ -41,7 +41,7 @@ const Footer = () => {
                             <FaPinterest size = {40}/>
                         </Socials>
                     </FlexRow>
-            <ABNC> Aboubakrine Gueye & Co. © 2022 </ABNC>
+            <ABNC> Abouba & Co. © 2022 </ABNC>
                 </FlexColumnCenter>
             </Wrapper>
         </Center>

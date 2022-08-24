@@ -157,13 +157,11 @@ const Image = styled.img`
 `;
 const Checkout = styled.p`
     display: flex;
-    justify-content: center;
-    height: 45px;
     padding: 10px 20px 10px 20px;
-    font-size: 22px;
+    font-size: 18px;
     border-radius: 5px;
-    width: 90%;
-    margin: 20px 0 0 20px;
+    width: fit-content;
+    margin: 20px;
     background-color: var(--color-secondary);
     color: white;
 `;
@@ -181,11 +179,14 @@ const ProductName = styled(Link)`
 const LogIn = styled(Link)`
     text-decoration: none;
     font-weight: 900;
-    margin: 0 0 0 15px;
+    margin-left: 10px;
     color: white;
     cursor: pointer;
     &:hover {
         color: var(--color-quarternary)
+    }
+    &:active {
+        color: white;
     }
 `;
 const Pricing = styled.div`

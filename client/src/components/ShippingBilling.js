@@ -50,7 +50,6 @@ const ShippingBilling = () => {
                 }
                 return res.json()
             }).then((data)=>{
-                console.log(data);
                 navigate("/confirmation");
                 setUserInfo(data.data.userInfo)
 

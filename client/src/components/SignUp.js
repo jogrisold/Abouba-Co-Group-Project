@@ -172,13 +172,13 @@ const SignUp = () => {
         <FlexCol>
         <H2>Ooopsie daisie!</H2>
         <Text>
-          Sorry,It seems like something went wrong with the SignUp process:
+          Sorry, it seems like something went wrong with the sign up process:
         </Text>
         <Text>
           {errorMsg}
         </Text>
         <Text>
-          Please Try Again:
+          Please try again:
         </Text>
         <Submit 
         onClick = {()=>setPopUp(false)}
@@ -276,7 +276,7 @@ const SignUp = () => {
                   : <AiOutlineEye size = {25}/>}
                 </TogglePassword>
              </FlexRow>
-              <Submit type="submit">Sign Up</Submit>
+              <SignUpSubmit type="submit">Sign Up</SignUpSubmit>
             </SignUpForm>
           </Wrapper>
         </Center>
@@ -306,6 +306,7 @@ const PopUp= styled.div`
 `;
 // Center our form
 const Center= styled.div`
+    font-family: var(--font-body);
     display: flex;
     width: 100%;
     justify-content: center;
@@ -375,12 +376,34 @@ const Input = styled.input`
 `;
 // Button for form submission
 const Submit = styled.button`
+  font-family: var(--font-heading);
   width: 100%;
   height: 45px;
   border-radius: 5px;
   border: none;
   margin: 10px 0;
 `;
+const SignUpSubmit = styled.button`
+  font-family: var(--font-heading);
+  font-weight: bold;
+  color: var(--color-quarternary);
+  background-color: whitesmoke;
+  font-size: 24px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+    transition: ease-in-out 100ms;
+    &:hover{
+      transform: scale(1.02);
+    }
+    &:active{
+        transform: scale(.8);
+        background-color: lightgray;
+    }
+`
+
 // Styling for message on form submission
 const H1 = styled.h1`
     text-align: left;

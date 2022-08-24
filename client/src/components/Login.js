@@ -160,8 +160,8 @@ const Login = () => {
           </LoginForm>
           <SignUpSection>
             <FlexRow>
-              <NoAccount>Don't have an account? </NoAccount>
-              <SignUpLink href="/signup">Sign Up </SignUpLink>
+              <NoAccount>Don't have an account? <SignUpLink href="/signup">Sign up </SignUpLink></NoAccount>
+              
             </FlexRow>
           </SignUpSection>
         </Wrapper>
@@ -240,12 +240,24 @@ const Input = styled.input`
 
 `;
 const Button = styled.button`
-  width: 100%;
-  height: 45px;
-  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-weight: bold;
+  color: var(--color-quarternary);
+  background-color: whitesmoke;
+  font-size: 20px;
   border-radius: 5px;
   border: none;
-  margin: 10px 0;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+    transition: ease-in-out 100ms;
+    &:hover{
+      transform: scale(1.02);
+    }
+    &:active{
+        transform: scale(.8);
+        background-color: lightgray;
+    }
 `;
 const LoginSection = styled.div`
   display: flex;
@@ -256,12 +268,14 @@ const LoginSection = styled.div`
 const SignUpSection = styled.div`
 `;
 const SignUpLink = styled.a`
-  color: white;
-  font-size: 12px;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 5px;
+  margin-top: 10px;
+  color: var(--color-quarternary);
+  font-size: 16px;
+  font-weight: bold;
   text-decoration: none;
+  &:hover{
+    color: white;
+  }
 `;
 const HomepageLink = styled.a`
   color: white;
@@ -271,9 +285,10 @@ const HomepageLink = styled.a`
   padding: 5px;
   text-decoration: none;
 `;
-const NoAccount = styled.div`
+const NoAccount = styled.p`
+  margin-top: 10px;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
 `;
 const FlexRow = styled.div`
     width: 100%;
