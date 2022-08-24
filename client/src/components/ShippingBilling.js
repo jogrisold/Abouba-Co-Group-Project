@@ -107,7 +107,7 @@ const ShippingBilling = () => {
                     </FlexCol>
                 </FlexRow>
                 <LastRow>
-                    <CancelBtn>Cancel</CancelBtn>
+                    <CancelBtn type="reset">Cancel</CancelBtn>
                     <PurchaseBtn type="submit" value="submit">Purchase</PurchaseBtn>
                 </LastRow>
             </ShippingForm>

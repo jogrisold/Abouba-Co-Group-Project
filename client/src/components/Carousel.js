@@ -1,8 +1,15 @@
 // Import swiper for use in Riku's stretch goal
-import { Swiper, SwiperSlide } from 'swiper/'
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import 'swiper/swiper-bundle.min.css';
+import 'swiper/components/navigation'
+import 'swiper/components/pagination'
+import SwiperCore, { Navigation, Pagination } from 'swiper'
+import '../swiperStyles.css'
+
 // Basic react necessitis
 import styled from 'styled-components'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 // Context and file dependencies
 import { StoreContext } from './StoreContext'
 import { ProductCard } from './ProductCard'
@@ -10,45 +17,76 @@ import { ProductCard } from './ProductCard'
 import { BsArrowRightCircle } from "react-icons/bs";
 import { BsArrowLeftCircle } from "react-icons/bs";
 
+import {useNavigate} from "react-router-dom"
+
+SwiperCore.use([Navigation, Pagination])
+
 // Carousel of images showing a random/special item, 
 // To be used on the Homepage
 export const Carousel = () => {
     // Use Context to get our product list from Store Context
     const { products } = useContext(StoreContext)
-
-    //***********************RIKU******************************** */
-    // To do: fetch the next carousel item from backend
-    const clickLeft = () =>{
-    };
-    // To do: fetch the previous carousel item from backend
-    const clickRight = () =>{
-    };
-    //***********************RIKU******************************** */
-
-    // Generate a random number to select a product from the database
-    let selectRandomWatch = Math.floor(Math.random() * products.length)
+    const navigate = useNavigate();
+    let randomIndexArray = [];
+    for (let i=0; i <= 14; i++){
+        randomIndexArray.push(Math.floor(Math.random() * 346))
+        console.log(randomIndexArray)
+    }
 
     return (
-    <Wrapper>
-        <FlexRow>
-            <Button
-                onClick ={clickLeft}>
-                <BsArrowLeftCircle size = {40}/>
-            </Button>
-
-
-            <ProductCard 
-            product={products[selectRandomWatch]}/>
-
-            <Button
-                onClick = {clickRight}>
-                <BsArrowRightCircle size = {40}/>
-            </Button>
-        </FlexRow>
-    </Wrapper>
+        <>
+        {products.length > 0 && 
+        <>
+        <Featured>Featured Items</Featured>
+        <SwiperContainer>
+        <Swiper wrapperTag='ul' navigation slidesPerView={3}>
+            {randomIndexArray.map((element)=>{
+                    return (
+                        <SwiperSlide
+                        tag="li"
+                        style={{
+                        display: 'flex', 
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'}}
+                        >
+                            <SwiperImage src={products[element].imageSrc} onClick={()=>{navigate(`/product/${products[element]._id}`)}}/>
+                            {products[element].name.length > 24 ?
+                            <p>{products[element].name.slice(0, 24)}...</p>
+                            :
+                            <p>{products[element].name}</p>}
+                        </SwiperSlide>
+                    )  
+            })}
+        </Swiper>
+        </SwiperContainer>
+        </>
+        }
+    </>
     )
 };
 
+const SwiperContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+max-width: 800px;
+padding: 8px;
+margin: 0 auto;
+`
+
+const Featured = styled.h1`
+margin-bottom: 8px;
+font-size: 24px;
+`
+
+const SwiperImage = styled.img`
+margin: 0 auto;
+
+margin-bottom: 8px;
+cursor: pointer;
+
+`
 // Align in center
 const Wrapper = styled.div` 
     justify-content: center;
