@@ -118,7 +118,7 @@ const CartPage = () => {
                         // Allow the shipping and billing inputs to be displayed
                         ? <ShippingBilling/>
                         // Otherwise, direct the user to login 
-                        : <Checkout>To continue to checkout, please <LogIn to={"/login"}>log in</LogIn>.</Checkout>
+                        : <Checkout>To continue to checkout, please <LogIn to={"/login"}>log in</LogIn></Checkout>
                         }
                     </div>
                 }
@@ -136,9 +136,8 @@ export default CartPage;
 const Center= styled.div`
     display: flex;
     width: 100%;
-    height: 100vh;
     justify-content: center;
-    margin-bottom:100px;
+    margin-bottom: 50px;
 `;
 const Wrapper= styled.div`
     display: flex;
@@ -163,8 +162,10 @@ const Checkout = styled.p`
     padding: 10px 20px 10px 20px;
     font-size: 22px;
     border-radius: 5px;
-    width: fit-content;
-    background-color: lightblue;
+    width: 90%;
+    margin: 20px 0 0 20px;
+    background-color: var(--color-secondary);
+    color: white;
 `;
 const ProductName = styled(Link)`
     color: black;
@@ -180,11 +181,11 @@ const ProductName = styled(Link)`
 const LogIn = styled(Link)`
     text-decoration: none;
     font-weight: 900;
-    margin: 0 0 0 5px;
-    color: black;
+    margin: 0 0 0 15px;
+    color: white;
     cursor: pointer;
     &:hover {
-        color: var(--color-tertiary)
+        color: var(--color-quarternary)
     }
 `;
 const Pricing = styled.div`
@@ -229,24 +230,24 @@ const Total = styled.div`
     font-size: 24px;
 `;
 const DeleteButton = styled.button`
-display: flex;
-align-items: center;
-background-color: #fff;
-border: none;
-cursor: pointer;
-transition: ease-in-out 50ms;
-&:hover {
-    transform: scale(1.1)
-}
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: ease-in-out 50ms;
+    &:hover {
+        transform: scale(1.1)
+    }
 `;
 const FlexContainer = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-height: 30vh;
-width: 100%;
-gap: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    width: 100%;
+    gap: 30px;
 `;
 const EmptyCart = styled(BsCartX)`
 font-size: 60px;
