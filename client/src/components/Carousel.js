@@ -1,3 +1,7 @@
+//**************************************************************** */
+// Imports
+//**************************************************************** */
+
 // Import swiper for use in Riku's stretch goal
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/swiper-bundle.css';
@@ -9,28 +13,36 @@ import '../swiperStyles.css'
 
 // Basic react necessitis
 import styled from 'styled-components'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 // Context and file dependencies
 import { StoreContext } from './StoreContext'
-import { ProductCard } from './ProductCard'
-// React Icons
-import { BsArrowRightCircle } from "react-icons/bs";
-import { BsArrowLeftCircle } from "react-icons/bs";
 
 import {useNavigate} from "react-router-dom"
 
+// Swiper core functionality that allows us to populate
+// the carousel and navigate (swipe)
 SwiperCore.use([Navigation, Pagination])
 
 // Carousel of images showing a random/special item, 
 // To be used on the Homepage
 export const Carousel = () => {
+    //****************************************************** */
+    // Constants 
+    //*********************************************************** */
+    
     // Use Context to get our product list from Store Context
-    const { products } = useContext(StoreContext)
+    const { products } = useContext(StoreContext);
+    
+    // For navigation to product page 
     const navigate = useNavigate();
+    
+    // Initialize an array to push a random number to
     let randomIndexArray = [];
+
+    // Define the limits of our swiper random array
     for (let i=0; i <= 14; i++){
+        // Pick a random item index for each element
         randomIndexArray.push(Math.floor(Math.random() * 346))
-        console.log(randomIndexArray)
     }
 
     return (
