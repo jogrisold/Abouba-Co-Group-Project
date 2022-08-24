@@ -79,7 +79,7 @@ const ItemDetails = () => {
                 setCompany(data.data)
             })
         })
-    }, [])
+    }, [productId.productId])
 
     // Validate that quantity is greater than 0
     const handleCartSubmit = (e) =>{
