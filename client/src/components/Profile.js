@@ -85,7 +85,7 @@ const Profile = () => {
                         </PurchaseHistory>
                     </>
                 // Otherwise, direct the user to login first
-                : <p>Please <Link to ="/login" style={{color: "var(--color-secondary)"}}> login</Link> to continue</p>
+                : <Login>Please <LoginLink to ="/login" style={{color: "var(--color-secondary)"}}> login</LoginLink> to continue</Login>
                 }
             </Wrapper>
         </Center>
@@ -106,6 +106,22 @@ const Center= styled.div`
     font-size: 18px;
     font-family: var(--font-body);
 `;
+const Login = styled.p`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+`
+const LoginLink = styled(Link)`
+   padding: 0 5px;
+   font-weight: bold;
+   text-decoration: none;
+   color: var(--color-secondary);
+   &:hover {
+        color: var(--color-primary);
+   }
+
+`
 const Wrapper= styled.div`
     display: flex;
     width: 70%;
