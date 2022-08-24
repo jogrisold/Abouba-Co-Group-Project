@@ -1,4 +1,4 @@
-// Import swiper for use in Riku's stretch goal
+// Import swiper and related packages
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper-bundle.min.css';
@@ -9,14 +9,9 @@ import '../swiperStyles.css'
 
 // Basic react necessitis
 import styled from 'styled-components'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 // Context and file dependencies
 import { StoreContext } from './StoreContext'
-import { ProductCard } from './ProductCard'
-// React Icons
-import { BsArrowRightCircle } from "react-icons/bs";
-import { BsArrowLeftCircle } from "react-icons/bs";
-
 import {useNavigate} from "react-router-dom"
 
 SwiperCore.use([Navigation, Pagination])
@@ -30,7 +25,6 @@ export const Carousel = () => {
     let randomIndexArray = [];
     for (let i=0; i <= 14; i++){
         randomIndexArray.push(Math.floor(Math.random() * 346))
-        console.log(randomIndexArray)
     }
 
     return (
@@ -41,7 +35,9 @@ export const Carousel = () => {
         <SwiperContainer>
         <Swiper wrapperTag='ul' navigation slidesPerView={3}>
             {randomIndexArray.map((element)=>{
+                
                     return (
+                        products[element].numInStock > 0 ?
                         <SwiperSlide
                         tag="li"
                         style={{
@@ -56,6 +52,8 @@ export const Carousel = () => {
                             :
                             <p>{products[element].name}</p>}
                         </SwiperSlide>
+                        :
+                        <></>
                     )  
             })}
         </Swiper>
@@ -87,20 +85,4 @@ margin-bottom: 8px;
 cursor: pointer;
 
 `
-// Align in center
-const Wrapper = styled.div` 
-    justify-content: center;
-    align-items: center;
-`;
-// Put the elements in a row
-const FlexRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
-// Make the buttons display in page nicely
-const Button = styled.button`
-    border: none;
-    background-color: white; 
-    margin: 0 15px 0 15px;
-`;
+
