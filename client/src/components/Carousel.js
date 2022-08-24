@@ -2,7 +2,7 @@
 // Imports
 //**************************************************************** */
 
-// Import swiper for use in Riku's stretch goal
+// Import swiper and related packages
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper-bundle.min.css';
@@ -17,6 +17,7 @@ import { useContext } from 'react'
 // Context and file dependencies
 import { StoreContext } from './StoreContext'
 
+// Import useNavigate to take the user to the product page
 import {useNavigate} from "react-router-dom"
 
 // Swiper core functionality that allows us to populate
@@ -54,20 +55,23 @@ export const Carousel = () => {
         <Swiper wrapperTag='ul' navigation slidesPerView={3}>
             {randomIndexArray.map((element)=>{
                     return (
-                        <SwiperSlide
-                        tag="li"
-                        style={{
-                        display: 'flex', 
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center'}}
-                        >
-                            <SwiperImage src={products[element].imageSrc} onClick={()=>{navigate(`/product/${products[element]._id}`)}}/>
-                            {products[element].name.length > 24 ?
-                            <p>{products[element].name.slice(0, 24)}...</p>
-                            :
-                            <p>{products[element].name}</p>}
-                        </SwiperSlide>
+                        products[element].numInStock > 0 
+                        ? <SwiperSlide
+                            tag="li"
+                            style={{
+                            display: 'flex', 
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center'}}
+                            >
+                                <SwiperImage 
+                                    src={products[element].imageSrc} 
+                                    onClick={()=>{navigate(`/product/${products[element]._id}`)}}/>
+                                {products[element].name.length > 24 
+                                ? <p>{products[element].name.slice(0, 24)}...</p>
+                                : <p>{products[element].name}</p>}
+                          </SwiperSlide>
+                        : <></>
                     )  
             })}
         </Swiper>
@@ -85,34 +89,13 @@ align-items: center;
 max-width: 800px;
 padding: 8px;
 margin: 0 auto;
-`
-
+`;
 const Featured = styled.h1`
 margin-bottom: 8px;
 font-size: 24px;
-`
-
+`;
 const SwiperImage = styled.img`
 margin: 0 auto;
-
 margin-bottom: 8px;
 cursor: pointer;
-
-`
-// Align in center
-const Wrapper = styled.div` 
-    justify-content: center;
-    align-items: center;
-`;
-// Put the elements in a row
-const FlexRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
-// Make the buttons display in page nicely
-const Button = styled.button`
-    border: none;
-    background-color: white; 
-    margin: 0 15px 0 15px;
 `;
