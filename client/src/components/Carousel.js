@@ -27,9 +27,10 @@ SwiperCore.use([Navigation, Pagination])
 // Carousel of images showing a random/special item, 
 // To be used on the Homepage
 export const Carousel = () => {
+
     //****************************************************** */
     // Constants 
-    //*********************************************************** */
+    //****************************************************** */
     
     // Use Context to get our product list from Store Context
     const { products } = useContext(StoreContext);
@@ -46,6 +47,10 @@ export const Carousel = () => {
         randomIndexArray.push(Math.floor(Math.random() * 346))
     }
 
+    //***************************************************** */
+    // Render
+    //***************************************************** */
+    
     return (
         <>
         {products.length > 0 && 
@@ -82,20 +87,24 @@ export const Carousel = () => {
     )
 };
 
+//***************************************************** */
+// Styled Components
+//***************************************************** */
+
 const SwiperContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-max-width: 800px;
-padding: 8px;
-margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+    padding: 8px;
+    margin: 0 auto;
 `;
 const Featured = styled.h1`
-margin-bottom: 8px;
-font-size: 24px;
+    margin-bottom: 8px;
+    font-size: 24px;
 `;
 const SwiperImage = styled.img`
-margin: 0 auto;
-margin-bottom: 8px;
-cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    cursor: pointer;
 `;
