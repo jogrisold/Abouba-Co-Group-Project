@@ -16,15 +16,11 @@ const bcrypt = require("bcrypt");
 const handleLogIn = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
-
-  // let body = req.body;
   let user = null;
 
   try {
     await client.connect();
-    user = await db
-      .collection("users")
-      .findOne({ email: req.body.email });
+    user = await db.collection("users").findOne({ email: req.body.email });
 
     if (user) {
       // Check if the database encrypted password matches the login
@@ -49,7 +45,6 @@ const handleLogIn = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log("catch: ", err);
     res.status(500).json({
       status: 500,
       data: req.body,
@@ -64,14 +59,12 @@ const handleSignIn = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("groupProject");
   let user = null;
-  console.log(req.body)
   try {
     await client.connect();
     user = await db.collection("users").findOne({ email: req.body.email });
     // Check if the entered email already exists in the users collection
     if (!user) {
       req.body._id = uuidv4();
-      console.log(req.body)
       // Steps to encrypt the password
       // const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
