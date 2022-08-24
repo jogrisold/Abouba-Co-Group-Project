@@ -1,39 +1,56 @@
+//**************************************************************** */
+// Imports
+//**************************************************************** */
+
 // Import react dependencies
 import { useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+
 // Local dependencies
 import logoblue from "../assets/logoblue.png";
 import { UserContext } from "./UserContext";
 import TypeAhead from "./TypeAhead";
+
 // Icons
 import { BsCartDash } from "react-icons/bs";
 import { BsCartCheckFill } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
-import { style } from "@mui/system";
 import { StoreContext } from "./StoreContext";
 
 // The Header is an element that will sit at the top of 
 // all pages, it is defined as a constant here and passed
 // to App.
 const Header = () => {
+
+    //**************************************************************** */
+    // Constants
+    //**************************************************************** */
+
     // Use Context to bring in the needed states for the code below
     const {isLoggedIn, setIsLoggedIn, setCurrentUser} = useContext(UserContext);
     const {cart, dispatch} = useContext(StoreContext)
+    
     // Define a navigator to allow us to use Navigate to move
     // the user to the desired page without them clicking on 
     // any links
     const navigate = useNavigate();
     
-    // Navigates to the specified route
+    // Function that navigates to the specified route (/profile) on click
     const handleClick = (routename) => {
         navigate(`/${routename}`)
     }
+
+    // Create a function to handle click of logot button
     const handleClickLogOut = () => {
         setCurrentUser(null);
         setIsLoggedIn(false);
         dispatch({type: 'clear-cart'})
     }
+
+    //**************************************************************** */
+    // Render
+    //**************************************************************** */
 
     return(
         <>
@@ -79,6 +96,10 @@ const Header = () => {
 // Export the component to be used in App
 export default Header;
 
+//**************************************************************** */
+// Styled-Components
+//**************************************************************** */
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -93,10 +114,11 @@ const LogoAndSearch = styled.div`
     align-items: center;
 `;
 const FlexRow = styled.div`
-    width: 40%;
+    width: 15%;
     margin-right: 40px;
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
 `;

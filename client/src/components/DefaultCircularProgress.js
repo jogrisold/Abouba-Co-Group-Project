@@ -1,11 +1,20 @@
+//***************************************************** */
+// Imports
+//***************************************************** */
 // Import a loading gif from mui library
 import CircularProgress from '@mui/material/CircularProgress';
 // Import styled - components to allow for styling
 import styled from "styled-components";
 
+// Create a component that will render a Cicular progress
+// image whilst other elements load 
 const DefaultCircularProgress = () => {
-    // Return a default loading image to 
-    // use in any loading scenarios
+
+    // No functions needed
+
+    //***************************************************** */
+    // Render
+    //***************************************************** */    
     return (
         <Center>
             <CircularProgress/>
@@ -15,6 +24,10 @@ const DefaultCircularProgress = () => {
 
 // Export it to be used across the app
 export default DefaultCircularProgress;
+
+//***************************************************** */
+// Styled-Components
+//***************************************************** */
 
 // Make it centered and in color theme
 const Center = styled.div`
